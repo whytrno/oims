@@ -4,16 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    {{-- @vite('resources/css/app.css') --}}
     <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
     {{-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script> --}}
     {{-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.tailwindcss.js"></script> --}}
     {{-- @vite('resources/js/datatable.js') --}}
-    @vite('resources/js/dataTables.js')
+    {{-- @vite('resources/js/dataTables.js')
     @vite('resources/js/dataTables.tailwindcss.js')
-    @vite('resources/css/datatable.css')
+    @vite('resources/css/datatable.css') --}}
+    @vite('resources/js/app.js')
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.tailwindcss.css"> --}}
 </head>
 
@@ -691,7 +690,9 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script> --}}
+    <script type="module">
         $(document).ready(function() {
             $('#example').DataTable();
         });
