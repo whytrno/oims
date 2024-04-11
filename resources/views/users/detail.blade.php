@@ -30,7 +30,13 @@
             </div>
         </div>
         <x-divider />
-        <form class="space-y-8" action="{{ isset($data) ? route('users.update', $data->id) : route('users.store') }}"
+        {{-- {{ isset($data) ? route('users.update', $data->id) : route('users.store') }} --}}
+        <form class="space-y-8"
+            @if (isset($data) && !isset($type)) action="{{ route('users.update', $data->id) }}"            
+        @elseif(isset($data) && isset($type) && $type == 'profile')
+            action="{{ route('profile.update') }}"
+            @else
+            action="{{ route('users.store') }}" @endif
             enctype="multipart/form-data" method="POST">
             @csrf
             <h1 class="text-lg font-semibold">Authentication</h1>

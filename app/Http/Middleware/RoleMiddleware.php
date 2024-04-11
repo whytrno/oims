@@ -24,7 +24,7 @@ class RoleMiddleware
         if ($is_api_request) {
             return $this->failedResponse("You don't have permission to access", 403);
         } else {
-            return redirect()->route('users.profile');
+            return redirect()->route('profile');
             // return back()->withError("You don't have permission to access");
         }
     }

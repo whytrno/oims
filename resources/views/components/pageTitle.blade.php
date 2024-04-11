@@ -27,17 +27,25 @@
         </nav>
     </div>
 
-    @if (Auth::user()->role_id === 1)
-        <a href="{{ route('users.create') }}"
-            class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md px-3 text-xs h-7 gap-1"><svg
-                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-circle-plus h-3.5 w-3.5">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M8 12h8"></path>
-                <path d="M12 8v8"></path>
-            </svg>
-            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Data</span>
+    <div class="flex gap-2">
+        <a href="{{ route('users.export') }}"
+            class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md px-3 text-xs h-7 gap-1">
+            <iconify-icon icon="mdi:table-export"></iconify-icon>
+            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
         </a>
-    @endif
+
+        @if (Auth::user()->role_id === 1)
+            <a href="{{ route('users.create') }}"
+                class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md px-3 text-xs h-7 gap-1"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-circle-plus h-3.5 w-3.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12h8"></path>
+                    <path d="M12 8v8"></path>
+                </svg>
+                <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Data</span>
+            </a>
+        @endif
+    </div>
 </div>

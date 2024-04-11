@@ -36,17 +36,6 @@ class UserController extends Controller
         }
     }
 
-    public function profile()
-    {
-        $data = User::with(['profile', 'role'])->where('id', auth()->user()->id)->first();
-
-        if ($data->profile->foto) {
-            $data->profile->foto = asset('storage/' . $data->profile->foto);
-        }
-
-        return view('users.detail', compact('data'));
-    }
-
     public function create()
     {
         $type = 'create';
@@ -56,7 +45,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'role_id' => 'required|integer|exists:roles,id',
             'email' => 'email|unique:users,email',
@@ -205,6 +193,10 @@ class UserController extends Controller
                 'nrp' => $request->nrp,
                 'no_kontrak' => $request->no_kontrak,
                 'status_kontrak' => $request->status_kontrak,
+            ]);
+
+            UserSiteLocation::create([
+                'user_id' => $user->id,
                 'provinsi' => $request->provinsi,
                 'kabupaten' => $request->kabupaten,
             ]);

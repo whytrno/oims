@@ -3,12 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\SiteController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/', [MainController::class, 'dashboard'])->name('dashboard');
-
-    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
 
     Route::group(['middleware' => [RoleMiddleware::class . ':1,2']], function () {
         Route::group(['prefix' => 'users'], function () {
@@ -19,6 +18,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/store', [UserController::class, 'store'])->name('users.store');
             Route::post('/update/{id}', [UserController::class, 'update'])->name('users.update');
             Route::get('export', [UserController::class, 'export'])->name('users.export');
+        });
+        Route::group(['prefix' => 'sites'], function () {
+            Route::get('/{id}', [SiteController::class, 'index'])->name('sites');
         });
     });
 

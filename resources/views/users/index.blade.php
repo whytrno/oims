@@ -43,12 +43,16 @@
                         </span>
                     </td>
                     <td>
-                        <a href="" class="border-b border-dotted hover:border-b-black">
+                        <a href="{{ route('users.detail', $d->id) }}" class="border-b border-dotted hover:border-b-black">
                             {{ $d->profile->nama }}
                         </a>
                     </td>
                     <td>{{ $d->profile->nik }}</td>
-                    <td>{{ $d->profile->lokasi_site }}</td>
+                    <td>
+                        <a href="{{ route('sites', $d->id) }}" class="border-b border-dotted hover:border-b-black">
+                            Lokasi Site
+                        </a>
+                    </td>
 
                     @if (Auth::user()->role_id === 1)
                         <td>
