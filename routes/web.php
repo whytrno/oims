@@ -7,13 +7,13 @@ use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::group(['middleware' => [RoleMiddleware::class . ':admin,management']], function () {
+    Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
         Route::get('/', [MainController::class, 'dashboard'])->name('dashboard');
     });
 
     Route::group(['prefix' => 'karyawan'], function () {
-        Route::group(['middleware' => [RoleMiddleware::class . ':admin,management']], function () {
-            Route::get('/', [UserController::class, 'index'])->name('users')->middleware(RoleMiddleware::class . ':admin,management');
+        Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
+            Route::get('/', [UserController::class, 'index'])->name('users');
             Route::get('/delete/{user_id}', [UserController::class, 'detail'])->name('users.delete');
             Route::get('export', [UserController::class, 'export'])->name('users.export');
 
