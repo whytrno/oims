@@ -11,7 +11,26 @@
 <body class="min-h-screen bg-background font-sans antialiased">
     @yield('content')
 
+    {{-- TOAST --}}
+    @if (session()->has('toast_message'))
+        <div id="toast-message"
+            class="fixed bottom-10 right-10 animate-in slide-in-from-bottom md:w-1/4 p-5 bg-white border shadow-sm rounded-lg">
+            <p>
+                {{ session('toast_message') }}
+            </p>
+        </div>
+    @endif
+
     @stack('scripts')
+
+    <script>
+        setTimeout(function() {
+            var toastMessage = document.getElementById('toast-message');
+            if (toastMessage) {
+                toastMessage.remove();
+            }
+        }, 2000);
+    </script>
 </body>
 
 </html>

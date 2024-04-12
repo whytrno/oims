@@ -7,7 +7,7 @@
         aria-describedby=":rr:-form-item-description" aria-invalid="false" name="{{ $name }}">
         @foreach ($options as $value => $text)
             <option value="{{ $value }}"
-                {{ old($name, $selected) == $value || isset($selected[$value]) ? 'selected' : '' }}>{{ $text }}
+                {{ old($name, $selected) == $value || isset($selected[$value]) ? 'selected' : '' }}>{{ ucfirst($text) }}
             </option>
         @endforeach
     </select>

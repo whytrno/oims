@@ -26,14 +26,13 @@
             </span>
             <div class="capitalize">
                 <h1 id="name" class="text-lg font-semibold">{{ isset($data) ? $data->profile->nama : 'User' }}</h1>
-                <p id="role-name" class="text-sm text-gray-500">{{ isset($data) ? $data->role->name : 'User' }}</p>
+                <p id="role-name" class="text-sm text-gray-500">{{ isset($data) ? '' : 'User' }}</p>
             </div>
         </div>
         <x-divider />
-        {{-- {{ isset($data) ? route('users.update', $data->id) : route('users.store') }} --}}
         <form class="space-y-8"
-            @if (isset($data) && !isset($type)) action="{{ route('users.update', $data->id) }}"            
-        @elseif(isset($data) && isset($type) && $type == 'profile')
+            @if ($type === 'update') action="{{ route('users.update', $data->id) }}"            
+        @elseif($type === 'profile')
             action="{{ route('profile.update') }}"
             @else
             action="{{ route('users.store') }}" @endif
@@ -42,17 +41,16 @@
             <h1 class="text-lg font-semibold">Authentication</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 @php
-                    $roleOptions = [
-                        '1' => 'Admin',
-                        '2' => 'Management',
-                        '3' => 'User',
-                    ];
-
-                    $selectedRole = ['3' => 'User'];
+                    $selectedRoleId = null;
+                    $selectedRoleName = null;
 
                     if (isset($data)) {
-                        $selectedRole = [$data->role_id => $data->role->name];
+                        $selectedRoleName = $userRoles->isNotEmpty() ? $userRoles->first() : null;
+
+                        $selectedRoleId = array_search($selectedRoleName, $roleOptions);
                     }
+
+                    $selectedRole = [$selectedRoleId => $selectedRoleName];
                 @endphp
                 <x-inputs.select label="Role" name="role_id" :options="$roleOptions" :selected="$selectedRole" />
                 <x-inputs.input name="email" label="Email" type="email"

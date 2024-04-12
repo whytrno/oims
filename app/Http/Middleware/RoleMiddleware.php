@@ -13,19 +13,24 @@ class RoleMiddleware
 
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        $userRole = Auth::user()->role_id;
+        $userRoles = Auth::user()->getRoleNames();
 
-        if (in_array($userRole, $roles)) {
+        $hasRequiredRole = false;
+        foreach ($roles as $role) {
+            if ($userRoles->contains($role)) {
+                $hasRequiredRole = true;
+                break;
+            }
+        }
+
+        if ($hasRequiredRole) {
             return $next($request);
         }
 
-        $is_api_request = $request->route()->getPrefix() === 'api';
-
-        if ($is_api_request) {
-            return $this->failedResponse("You don't have permission to access", 403);
+        if ($this->isApi()) {
+            return response()->json(["message" => "You don't have permission to access"], 403);
         } else {
-            return redirect()->route('profile');
-            // return back()->withError("You don't have permission to access");
+            return redirect()->route('profile')->with('toast_message', 'You don\'t have permission to access');
         }
     }
 }

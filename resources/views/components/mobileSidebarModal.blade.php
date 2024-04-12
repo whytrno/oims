@@ -1,9 +1,9 @@
-<div id="sidebar-mobile-modal" role="dialog" id="radix-:R2quda:" aria-describedby="radix-:R2qudaH2:"
-    aria-labelledby="radix-:R2qudaH1:" data-state="closed"
+<div id="sidebar-mobile-modal" role="dialog" aria-describedby="radix-:R2qudaH2:" aria-labelledby="radix-:R2qudaH1:"
+    data-state="closed"
     class="fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm data-[state=open]:flex data-[state=closed]:hidden flex-col bg-white"
     tabindex="-1" style="pointer-events: auto;">
     <nav class="grid gap-2 text-lg font-medium">
-        <a class="flex items-center gap-2 text-lg font-semibold" href="#">
+        <a class="flex items-center gap-2 text-lg font-semibold" href="{{ route('dashboard') }}">
             <img alt="logo" loading="lazy" width="42" height="42" decoding="async" data-nimg="1"
                 src="{{ asset('logo.png') }}" style="color: transparent;">
             <span class="">OimsApps</span>

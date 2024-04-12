@@ -28,9 +28,9 @@
                     ];
                 @endphp
                 @foreach ($navLinks as $navLink)
-                    @if (Auth::user()->role_id == 3 && $navLink['name'] != 'Profile')
+                    {{-- @if (Auth::user()->role_id == 3 && $navLink['name'] != 'Profile')
                         @continue
-                    @endif
+                    @endif --}}
                     <a href={{ route($navLink['route']) }}
                         class="flex items-center gap-3 rounded-lg px-5 py-3 transition-all {{ Request::routeIs($navLink['route']) ? 'bg-primary text-white' : 'text-muted-foreground hover:text-primary' }}">
                         <iconify-icon icon="{{ $navLink['icon'] }}" observer="false"></iconify-icon>
