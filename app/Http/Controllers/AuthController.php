@@ -31,7 +31,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email',
             'role_id' => 'nullable|exists:roles,id',
             'password' => 'required|string|min:8',
-            'password_confirm' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|string|max:255',
         ]);
@@ -42,7 +42,8 @@ class AuthController extends Controller
             } else {
                 return redirect()->back()
                     ->withErrors($validator)
-                    ->withInput();
+                    ->withInput()
+                    ->with('error', 'Validation error');
             }
         }
 
@@ -65,6 +66,7 @@ class AuthController extends Controller
                 return redirect()->route('login')->with('success', 'Register success');
             }
         } catch (\Exception $e) {
+            if (env('APP_DEBUG')) dd($e);
             if ($this->isApi()) {
                 return $this->failedResponse($e->getMessage(), 500);
             } else {
@@ -94,7 +96,7 @@ class AuthController extends Controller
                 return redirect()->route('dashboard')->with('success', 'Login success');
             }
         } catch (\Exception $e) {
-            dd($e);
+            if (env('APP_DEBUG')) dd($e);
             if ($this->isApi()) {
                 return $this->failedResponse($e->getMessage(), 500);
             } else {
