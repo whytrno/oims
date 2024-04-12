@@ -43,7 +43,7 @@ class AuthController extends Controller
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput()
-                    ->with('error', 'Validation error');
+                    ->with('toast_message', 'Validation error');
             }
         }
 
@@ -63,14 +63,14 @@ class AuthController extends Controller
             if ($this->isApi()) {
                 return $this->successResponse($user, 'Register success', 200);
             } else {
-                return redirect()->route('login')->with('success', 'Register success');
+                return redirect()->route('login')->with('toast_message', 'Register success');
             }
         } catch (\Exception $e) {
             if (env('APP_DEBUG')) dd($e);
             if ($this->isApi()) {
                 return $this->failedResponse($e->getMessage(), 500);
             } else {
-                return redirect()->back()->with('error', $e->getMessage());
+                return redirect()->back()->with('toast_message', $e->getMessage());
             }
         }
     }
@@ -84,7 +84,7 @@ class AuthController extends Controller
                 if ($this->isApi()) {
                     return $this->failedResponse('Email or password is wrong', 401);
                 } else {
-                    return redirect()->back()->with('error', 'Email or password is wrong');
+                    return redirect()->back()->with('toast_message', 'Email or password is wrong');
                 }
             }
 
@@ -93,14 +93,14 @@ class AuthController extends Controller
                 return $this->successResponse($token, 'Login success', 200);
             } else {
                 Auth::guard("web")->login($user);
-                return redirect()->route('dashboard')->with('success', 'Login success');
+                return redirect()->route('dashboard')->with('toast_message', 'Login success');
             }
         } catch (\Exception $e) {
             if (env('APP_DEBUG')) dd($e);
             if ($this->isApi()) {
                 return $this->failedResponse($e->getMessage(), 500);
             } else {
-                return redirect()->back()->with('error', $e->getMessage());
+                return redirect()->back()->with('toast_message', $e->getMessage());
             }
         }
     }
@@ -109,9 +109,9 @@ class AuthController extends Controller
     {
         try {
             Auth::guard("web")->logout();
-            return redirect()->route('login')->with('success', 'Logout success');
+            return redirect()->route('login')->with('toast_message', 'Logout success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('toast_message', $e->getMessage());
         }
     }
 }
