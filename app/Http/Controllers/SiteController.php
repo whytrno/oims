@@ -19,12 +19,12 @@ class SiteController extends Controller
                 $id = auth()->user()->id;
             }
 
-            $data = UserSiteLocation::where('user_id', $id)->get();
+            $data = UserSiteLocation::where('user_id', $id)->orderBy('id', 'desc')->get();
 
             if ($this->isApi()) {
                 return $this->successResponse($data);
             } else {
-                return view('sites.index', compact('data'));
+                return view('sites.index', compact('id', 'data'));
             }
         } catch (\Throwable $e) {
             if (env('APP_DEBUG')) dd($e);

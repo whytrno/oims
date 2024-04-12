@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [MainController::class, 'dashboard'])->name('dashboard');
+    Route::group(['middleware' => [RoleMiddleware::class . ':admin,management']], function () {
+        Route::get('/', [MainController::class, 'dashboard'])->name('dashboard');
+    });
 
     Route::group(['prefix' => 'karyawan'], function () {
         Route::group(['middleware' => [RoleMiddleware::class . ':admin,management']], function () {
@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
             Route::group(['prefix' => '{user_id}/sites'], function () {
                 Route::get('/', [SiteController::class, 'index'])->name('sites');
+                Route::post('/store', [SiteController::class, 'store'])->name('sites.store');
             });
         });
 

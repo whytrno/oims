@@ -6,12 +6,6 @@
     foreach ($provinces as $province) {
         $provinceOptions[$province->name] = $province->id;
     }
-
-    $selectedProvinsi = [];
-
-    if (isset($data)) {
-        $selectedProvinsi = [$data->profile->provinsi => $data->profile->provinsi];
-    }
 @endphp
 
 <div class="space-y-2 px">
@@ -19,11 +13,11 @@
         Provinsi
     </label>
     <select id="provinsi"
-        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-        aria-describedby=":rr:-form-item-description" aria-invalid="false" name="{{ $name }}">
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            aria-describedby=":rr:-form-item-description" aria-invalid="false" name="{{ $name }}">
         @foreach ($provinceOptions as $value => $text)
-            <option value="{{ $value }}"
-                {{ old($name, $selected) == $value || isset($selected[$value]) ? 'selected' : '' }}>{{ $value }}
+            <option value="{{ $value }}">
+                {{ $value }}
             </option>
         @endforeach
     </select>
@@ -37,9 +31,8 @@
 
 @push('scripts')
     <script>
-        document.getElementById('provinsi').addEventListener('change', function() {
+        document.getElementById('provinsi').addEventListener('change', function () {
             var selectedProvinceName = this.value;
-            console.log(selectedProvinceName)
 
             var selectedProvinceId = {!! json_encode($provinceOptions) !!}[selectedProvinceName];
 

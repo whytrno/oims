@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use App\Http\Traits\ResponseTraits;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Traits\ResponseTraits;
-use App\Models\UserSiteLocation;
-use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -54,9 +53,14 @@ class UserController extends Controller
         try {
             $type = 'update';
 
+            if (Auth::user()->hasRole('manajemen')) {
+                $type = 'read';
+            } else {
+                $type = 'profile';
+            }
+
             if (!$id) {
                 $id = auth()->user()->id;
-                $type = 'profile';
             }
 
             $data = User::with(['profile'])->where('id', $id)->first();
@@ -71,7 +75,7 @@ class UserController extends Controller
                 $data->role = $userRoles;
                 return $this->successResponse($data, 'Get profile success', 200);
             } else {
-                return view('users.detail', compact('type', 'data', 'roleOptions'));
+                return view('users.detail', compact('id', 'type', 'data', 'roleOptions', 'userRoles'));
             }
         } catch (\Exception $e) {
             if (env('APP_DEBUG')) dd($e);
