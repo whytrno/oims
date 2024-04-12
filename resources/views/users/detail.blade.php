@@ -5,7 +5,7 @@
         <a href="{{ route('sites', $id) }}"
            class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md px-3 text-xs h-7 gap-1">
             <iconify-icon icon="mdi:location-check-outline"></iconify-icon>
-            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Lokasi Site</span>
+            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">Lokasi Site {{$type}}</span>
         </a>
     </div>
 @endsection
@@ -74,7 +74,7 @@
                                 type="email"
                                 value="{{ isset($data) ? $data->email : '' }}"/>
 
-                @if($type === 'update' && $type === 'create' && $type === 'profile')
+                @if($type === 'update' || $type === 'create' || $type === 'profile')
                     <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="password" label="Password"
                                     type="password" value=""/>
                     <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="password_confirmation"

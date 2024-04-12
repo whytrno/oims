@@ -53,7 +53,7 @@ class UserController extends Controller
         try {
             $type = 'update';
 
-            if (Auth::user()->hasRole('manajemen')) {
+            if (Auth::user()->hasRole('manager')) {
                 $type = 'read';
             } else {
                 $type = 'profile';

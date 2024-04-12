@@ -16,6 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/', [UserController::class, 'index'])->name('users');
             Route::get('/delete/{user_id}', [UserController::class, 'detail'])->name('users.delete');
             Route::get('export', [UserController::class, 'export'])->name('users.export');
+            Route::get('/detail/{user_id}', [UserController::class, 'detail'])->name('users.detail');
 
             Route::group(['prefix' => '{user_id}/sites'], function () {
                 Route::get('/', [SiteController::class, 'index'])->name('sites');
@@ -24,7 +25,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::group(['middleware' => [RoleMiddleware::class . ':admin']], function () {
-            Route::get('/detail/{user_id}', [UserController::class, 'detail'])->name('users.detail');
             Route::get('/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/store', [UserController::class, 'store'])->name('users.store');
             Route::post('/update/{user_id}', [UserController::class, 'update'])->name('users.update');
