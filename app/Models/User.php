@@ -50,6 +50,6 @@ class User extends Authenticatable
 
     public function siteLocation()
     {
-        return $this->hasOne(UserSiteLocation::class);
+        return $this->hasMany(UserSiteLocation::class);
     }
 }

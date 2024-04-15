@@ -63,7 +63,7 @@ class UserController extends Controller
                 $id = auth()->user()->id;
             }
 
-            $data = User::with(['profile'])->where('id', $id)->first();
+            $data = User::with(['profile', 'siteLocation'])->where('id', $id)->first();
             $roleOptions = Role::pluck('name', 'id')->toArray();
             $userRoles = $data->getRoleNames();
 
