@@ -33,17 +33,11 @@
                     <img class="aspect-square size-14 rounded-full" alt="Foto" src="{{ $data->profile->foto }}">
                 @endif
             </span>
-            {{ $data->profile->foto_mcu }}
-            <img class="aspect-square size-14 rounded-full" alt="Foto" src="{{ $data->profile->foto_ktp }}">
             <div class="capitalize">
                 <h1 id="name" class="text-lg font-semibold">{{ isset($data) ? $data->profile->nama : 'User' }}</h1>
                 <p id="role-name" class="text-sm text-gray-500">{{ isset($data) ? $userRoles->first() : 'User' }}</p>
             </div>
         </div>
-        <pre>
-            <p>
-                {{ $data->profile->foto }}</p>
-        </pre>
         <x-divider />
         <form class="space-y-8"
             @if ($type === 'update') action="{{ route('users.update', $data->id) }}"
@@ -88,8 +82,10 @@
 
             <h1 class="text-lg font-semibold">Profile</h1>
             <div class="grid md:grid-cols-2 gap-10">
-                <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto" label="Foto"
-                    accept="image/*" class="hidden" />
+                <div class="hidden">
+                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto" label="Foto"
+                        accept="image/*" />
+                </div>
                 <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
                     accept="image/*" />
 
@@ -134,10 +130,12 @@
 
                 @endphp
                 <x-inputs.select label="MCU" readonly="{{ $type === 'read' ? true : false }}" name="mcu"
-                    :options="$mcuOptions" :selected="['ada' => 'Ada']" />
+                    :options="$mcuOptions" :selected="['tidak ada' => 'Tidak Ada']" />
 
-                <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
-                    accept="image/*" />
+                <div id="foto_mcu" class="hidden">
+                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
+                        accept="image/*" />
+                </div>
 
                 @php
                     $statusKontrakOptions = [
@@ -216,10 +214,12 @@
                 <x-inputs.select label="Status Pernikahan" readonly="{{ $type === 'read' ? true : false }}"
                     name="status_pernikahan" :options="$statusPernikahanOptions" :selected="$selectedStatus" />
 
-                <x-inputs.input
-                    readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
-                    readonly="{{ $type === 'read' ? true : false }}" name="anak" label="Jumlah Anak" type="number"
-                    value="{{ isset($data) ? $data->profile->anak : '' }}" />
+                <div id="anak" class="hidden">
+                    <x-inputs.input
+                        readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
+                        readonly="{{ $type === 'read' ? true : false }}" name="anak" label="Jumlah Anak"
+                        type="number" value="{{ isset($data) ? $data->profile->anak : '' }}" />
+                </div>
 
                 @if ($type !== 'view')
                     <x-button title="Submit" type="submit" />
@@ -248,21 +248,22 @@
             $('#role-name').text(selectedText);
         });
         $('select[name="mcu"]').on('change', function() {
-            var selectedText = $(this).find('option:selected').text();
+            var selectedText = $(this).find('option:selected').text().trim();
 
-            if (selectedText === 'ada') {
-                $('input[name="foto_mcu"]').prop('readonly', false);
+            if (selectedText.charCodeAt(0) === 65) {
+                $('#foto_mcu').removeClass('hidden');
             } else {
-                $('input[name="foto_mcu"]').prop('readonly', true);
+                $('#foto_mcu').addClass('hidden');
             }
         });
         $('select[name="status_pernikahan"]').on('change', function() {
-            var selectedText = $(this).find('option:selected').text();
+            var selectedText = $(this).find('option:selected').text().trim();
+            console.log('selectedText:', selectedText);
 
             if (selectedText === 'Belum Menikah') {
-                $('input[name="anak"]').prop('readonly', true);
+                $('#anak').addClass('hidden');
             } else {
-                $('input[name="anak"]').prop('readonly', false);
+                $('#anak').removeClass('hidden');
             }
         });
     </script>
