@@ -2,8 +2,8 @@
 
 @section('content')
     <div
-        class="w-full h-screen bg-[url('{{ asset('images/auth-bg.jpeg') }}')] flex justify-center items-center bg-cover bg-center">
-        <img src="{{ asset('images/auth-bg.jpeg') }}" alt=""
+        class="w-full h-screen bg-[url('{{ asset('images/auth-bg.jpg') }}')] flex justify-center items-center bg-cover bg-center">
+        <img src="{{ asset('images/auth-bg.jpg') }}" alt=""
             class="h-screen w-full object-cover object-top fixed top-0 left-0 z-10">
         <div class="rounded-xl border text-card-foreground shadow mx-auto max-w-sm bg-white/90 z-50">
             <div class="flex flex-col space-y-1.5 p-6">
