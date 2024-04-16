@@ -22,15 +22,6 @@ class UserController extends Controller
         try {
             $data = User::with(['profile'])->get();
 
-            foreach ($data as $user) {
-                $user->password = Crypt::decryptString($user->password);
-                if ($user->profile->foto) {
-                    $user->profile->foto = asset('storage/' . $user->profile->foto);
-                    $user->profile->foto_ktp = asset('storage/' . $user->profile->foto_ktp);
-                    $user->profile->foto_mcu = asset('storage/' . $user->profile->foto_mcu);
-                }
-            }
-
             return view('users.index', compact('data'));
         } catch (\Exception $e) {
             if (env('APP_DEBUG')) dd($e);
@@ -68,10 +59,6 @@ class UserController extends Controller
             $data = User::with(['profile', 'siteLocation'])->where('id', $id)->first();
             $roleOptions = Role::pluck('name', 'id')->toArray();
             $userRoles = $data->getRoleNames();
-
-            if ($data->profile->foto) {
-                $data->profile->foto = asset('storage/' . $data->profile->foto);
-            }
 
             if ($this->isApi()) {
                 $data->role = $userRoles;
