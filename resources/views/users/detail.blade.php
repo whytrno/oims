@@ -225,6 +225,10 @@
                 <x-inputs.select label="Status Pernikahan" readonly="{{$type === 'read' ? true : false}}"
                                  name="status_pernikahan" :options="$statusPernikahanOptions"
                                  :selected="$selectedStatus"/>
+                <p class="" id="tessss">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad architecto
+                    aspernatur aut doloribus
+                    ea expedita fugit labore nostrum officiis placeat praesentium quibusdam recusandae reprehenderit
+                    similique tempore veritatis, vitae voluptatem?</p>
 
                 <x-inputs.input
                         readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
@@ -269,11 +273,12 @@
         $('select[name="status_pernikahan"]').on('change', function () {
             var selectedText = $(this).find('option:selected').text();
 
-            if (selectedText === 'Belum Menikah') {
-                $('input[name="anak"]').prop('readonly', true);
+            console.log(selectedText);
+
+            if (selectedText !== 'Cerai') {
+                $('#tessss').addClass('hidden');
             } else {
-                console.log('enabled')
-                $('input[name="anak"]').prop('readonly', false);
+                $('#tessss').removeClass('hidden');
             }
         });
     </script>

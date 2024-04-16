@@ -43,7 +43,6 @@
 
             var selectedProvinceId = {!! json_encode($provinceOptions) !!}[selectedProvinceName];
 
-            // add HO on the list
             if (selectedProvinceName === 'HO') {
                 var kabupatenOptions = document.getElementById('kabupaten');
                 kabupatenOptions.innerHTML = '';

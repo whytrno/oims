@@ -26,6 +26,8 @@ class UserController extends Controller
                 $user->password = Crypt::decryptString($user->password);
                 if ($user->profile->foto) {
                     $user->profile->foto = asset('storage/' . $user->profile->foto);
+                    $user->profile->foto_ktp = asset('storage/' . $user->profile->foto_ktp);
+                    $user->profile->foto_mcu = asset('storage/' . $user->profile->foto_mcu);
                 }
             }
 
@@ -209,21 +211,21 @@ class UserController extends Controller
             'no_hp' => 'nullable|string',
             'nik' => 'nullable|size:16|unique:profiles,nik,' . ($userId ? $userId : '') . ',user_id',
             'tempat_lahir' => 'nullable|string|max:255',
-            'anak' => 'nullable|integer',
             'tgl_lahir' => 'nullable|date',
             'alamat_ktp' => 'nullable|string|max:255',
             'domisili' => 'nullable|string|max:255',
             'agama' => 'nullable|in:islam,kristen,katolik,hindu,budha,konghucu',
             'status_pernikahan' => 'nullable|in:belum menikah,menikah,cerai',
+            'anak' => 'nullable|required_if:status_pernikahan,menikah,cerai|integer|min:0',
             'nama_kontak' => 'nullable|string|max:255',
             'hubungan_kontak' => 'nullable|string|max:255',
             'no_kontak_darurat' => 'nullable|string|max:255',
             'mcu' => 'nullable|in:ada,tidak ada',
+            'foto_mcu' => 'nullable|required_if:mcu,ada|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'no_rek_bca' => 'nullable|size:10',
             'pendidikan_terakhir' => 'nullable|in:sd,smp,sma,d3,s1,s2,s3',
             'tgl_bergabung' => 'nullable|date',
             'nrp' => 'nullable|string|max:255',
-            'foto_mcu' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'no_kontrak' => 'nullable|integer',
             'status_kontrak' => 'nullable|in:aktif,tidak aktif',

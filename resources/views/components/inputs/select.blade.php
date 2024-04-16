@@ -1,4 +1,4 @@
-<div class="space-y-2 px">
+<div id="{{$name}}" class="space-y-2 px {{isset($classContainer) ? $classContainer:''}}">
     @if(isset($readonly) && !$readonly)
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {{ $label }}
