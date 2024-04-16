@@ -1,4 +1,4 @@
-@if (isset($readonly) && !$readonly)
+@if (isset($readonly) && $readonly === 'false')
     <div class="grid w-full items-center gap-2 {{ isset($class) ? $class : '' }}">
         <label for="{{ $name }}" class="block text-sm font-medium text-gray-700">
             {{ $label }}

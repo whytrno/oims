@@ -90,9 +90,9 @@
             <h1 class="text-lg font-semibold">Profile</h1>
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="hidden">
-                    <x-inputs.file
-                        value="{{ isset($data) ? $data->profile->foto : '' }}"readonly="{{ $type === 'read' ? true : false }}"
-                        name="foto" label="Foto" accept="image/*" />
+                    <x-inputs.file value="{{ isset($data) ? $data->profile->foto : '' }}"
+                        readonly="{{ $type === 'read' ? 'true' : 'false' }}" name="foto" label="Foto"
+                        accept="image/*" />
                 </div>
 
                 <div class="flex flex-col gap-2">
