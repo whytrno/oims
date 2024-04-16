@@ -15,4 +15,16 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFotoAttribute($value)
+    {
+        // Cek jika foto ada
+        if ($value) {
+            // Jika ada, kembalikan URL lengkap foto
+            return asset('storage/' . $value);
+        }
+
+        // Jika tidak ada, kembalikan null atau URL default jika ada
+        return null; // Atau sesuaikan dengan URL default Anda
+    }
 }

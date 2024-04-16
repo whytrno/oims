@@ -154,6 +154,7 @@ class UserController extends Controller
                 'password' => $request->filled('password') ? Crypt::encryptString($request->password) : $user->password,
             ]);
 
+
             $user->profile->update($this->profileRequest($request, $user));
 
             if ($this->isApi()) {
@@ -248,10 +249,38 @@ class UserController extends Controller
         return $rules;
     }
 
+    private function setFile($request, $file, $path)
+    {
+        if ($request->file($file)) {
+            $path =  $request->file($file)->store($path, 'public');
+            $path = asset('storage/' . $path);
+
+            return $path;
+        }
+
+        return null;
+    }
+
     private function profileRequest($request, $user = null, $id = null)
     {
+        $foto = $user ? $user->foto : null;
+        $foto_mcu = $user ? $user->foto_mcu : null;
+        $foto_ktp = $user ? $user->foto_ktp : null;
+
+        if ($request->file('foto')) {
+            $foto = $this->setFile($request, 'foto', 'images/profile');
+        }
+
+        if ($request->file('foto_mcu')) {
+            $foto_mcu = $this->setFile($request, 'foto_mcu', 'images/mcu');
+        }
+
+        if ($request->file('foto_ktp')) {
+            $foto_ktp = $this->setFile($request, 'foto_ktp', 'images/ktp');
+        }
+
         $profileRequests = [
-            'foto' => $request->file('foto') ? $request->file('foto')->store('profile', 'public') : ($user ? $user->foto : null),
+            'foto' => $foto,
             'nama' => $request->filled('nama') ? $request->nama : ($user ? $user->nama : null),
             'no_hp' => $request->filled('no_hp') ? $request->no_hp : ($user ? $user->no_hp : null),
             'nik' => $request->filled('nik') ? $request->nik : ($user ? $user->nik : null),
@@ -266,8 +295,8 @@ class UserController extends Controller
             'hubungan_kontak_darurat' => $request->filled('hubungan_kontak_darurat') ? $request->hubungan_kontak_darurat : ($user ? $user->hubungan_kontak_darurat : null),
             'no_kontak_darurat' => $request->filled('no_kontak_darurat') ? $request->no_kontak_darurat : ($user ? $user->no_kontak_darurat : null),
             'mcu' => $request->filled('mcu') ? $request->mcu : ($user ? $user->mcu : null),
-            'foto_mcu' => $request->file('foto_mcu') ? $request->file('foto_mcu')->store('profile', 'public') : ($user ? $user->foto_mcu : null),
-            'foto_ktp' => $request->file('foto_ktp') ? $request->file('foto_ktp')->store('profile', 'public') : ($user ? $user->foto_ktp : null),
+            'foto_mcu' => $foto_mcu,
+            'foto_ktp' => $foto_ktp,
             'no_rek_bca' => $request->filled('no_rek_bca') ? $request->no_rek_bca : ($user ? $user->no_rek_bca : null),
             'pendidikan_terakhir' => $request->filled('pendidikan_terakhir') ? $request->pendidikan_terakhir : ($user ? $user->pendidikan_terakhir : null),
             'tgl_bergabung' => $request->filled('tgl_bergabung') ? $request->tgl_bergabung : ($user ? $user->tgl_bergabung : null),

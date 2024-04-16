@@ -14,7 +14,7 @@
     <div class="border rounded-lg h-full p-5 space-y-5">
         <div class="flex gap-3 items-center">
             <span
-                    @if($type === 'update' && $type === 'create' && $type === 'profile')
+                    @if($type !== 'view')
                         onclick="$('#foto').click()"
                     @endif
                     class="relative flex shrink-0 overflow-hidden rounded-full size-14 cursor-pointer">
@@ -225,10 +225,6 @@
                 <x-inputs.select label="Status Pernikahan" readonly="{{$type === 'read' ? true : false}}"
                                  name="status_pernikahan" :options="$statusPernikahanOptions"
                                  :selected="$selectedStatus"/>
-                <p class="" id="tessss">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad architecto
-                    aspernatur aut doloribus
-                    ea expedita fugit labore nostrum officiis placeat praesentium quibusdam recusandae reprehenderit
-                    similique tempore veritatis, vitae voluptatem?</p>
 
                 <x-inputs.input
                         readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
@@ -273,12 +269,10 @@
         $('select[name="status_pernikahan"]').on('change', function () {
             var selectedText = $(this).find('option:selected').text();
 
-            console.log(selectedText);
-
-            if (selectedText !== 'Cerai') {
-                $('#tessss').addClass('hidden');
+            if (selectedText === 'Belum Menikah') {
+                $('input[name="anak"]').prop('readonly', true);
             } else {
-                $('#tessss').removeClass('hidden');
+                $('input[name="anak"]').prop('readonly', false);
             }
         });
     </script>
