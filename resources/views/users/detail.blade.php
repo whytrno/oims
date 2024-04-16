@@ -97,7 +97,7 @@
 
                 <div class="flex flex-col gap-2">
                     <x-inputs.file value="{{ isset($data) ? $data->profile->foto_ktp : '' }}"
-                        readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
+                        readonly="{{ $type === 'read' ? 'true' : 'false' }}" name="foto_ktp" label="Foto KTP"
                         accept="image/*" />
                     @if (isset($data) && $data->profile->foto_ktp)
                         <a href="{{ $data->profile->foto_ktp }}"
@@ -165,7 +165,7 @@
 
                 <div id="foto_mcu" class="@if ($data->profile->mcu === 'tidak ada') hidden @endif">
                     <x-inputs.file value="{{ isset($data) ? $data->profile->foto_mcu : '' }}"
-                        readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
+                        readonly="{{ $type === 'read' ? 'true' : 'false' }}" name="foto_mcu" label="Foto MCU"
                         accept="image/*" />
                 </div>
 
