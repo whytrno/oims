@@ -213,7 +213,8 @@ class UserController extends Controller
             'hubungan_kontak' => 'nullable|string|max:255',
             'no_kontak_darurat' => 'nullable|string|max:255',
             'mcu' => 'nullable|in:ada,tidak ada',
-            'foto_mcu' => 'nullable|required_if:mcu,ada|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'foto_mcu' => 'nullable|required_if:mcu,ada|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto_mcu' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'no_rek_bca' => 'nullable|size:10',
             'pendidikan_terakhir' => 'nullable|in:sd,smp,sma,d3,s1,s2,s3',
             'tgl_bergabung' => 'nullable|date',
@@ -271,7 +272,7 @@ class UserController extends Controller
         }
 
         $profileRequests = [
-            'foto' => $foto,
+            'foto' => $request->file('foto') ? $foto : $user->foto,
             'nama' => $request->filled('nama') ? $request->nama : ($user ? $user->nama : null),
             'no_hp' => $request->filled('no_hp') ? $request->no_hp : ($user ? $user->no_hp : null),
             'nik' => $request->filled('nik') ? $request->nik : ($user ? $user->nik : null),
@@ -286,8 +287,8 @@ class UserController extends Controller
             'hubungan_kontak_darurat' => $request->filled('hubungan_kontak_darurat') ? $request->hubungan_kontak_darurat : ($user ? $user->hubungan_kontak_darurat : null),
             'no_kontak_darurat' => $request->filled('no_kontak_darurat') ? $request->no_kontak_darurat : ($user ? $user->no_kontak_darurat : null),
             'mcu' => $request->filled('mcu') ? $request->mcu : ($user ? $user->mcu : null),
-            'foto_mcu' => $foto_mcu,
-            'foto_ktp' => $foto_ktp,
+            'foto_mcu' => $request->file('foto_mcu') ? $foto_mcu : $user->foto_mcu,
+            'foto_ktp' => $request->file('foto_ktp') ? $foto_ktp : $user->foto_ktp,
             'no_rek_bca' => $request->filled('no_rek_bca') ? $request->no_rek_bca : ($user ? $user->no_rek_bca : null),
             'pendidikan_terakhir' => $request->filled('pendidikan_terakhir') ? $request->pendidikan_terakhir : ($user ? $user->pendidikan_terakhir : null),
             'tgl_bergabung' => $request->filled('tgl_bergabung') ? $request->tgl_bergabung : ($user ? $user->tgl_bergabung : null),

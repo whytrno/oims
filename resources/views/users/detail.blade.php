@@ -86,8 +86,15 @@
                     <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto" label="Foto"
                         accept="image/*" />
                 </div>
-                <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
-                    accept="image/*" />
+                <div class="flex flex-col gap-2">
+                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
+                        accept="image/*" />
+                    @if ($data->profile->foto_ktp)
+                        <a href="{{ $data->profile->foto_ktp }}"
+                            class="border-b border-b-gray-400 border-dotted hover:border-b-black text-sm w-min whitespace-nowrap">Lihat
+                            KTP</a>
+                    @endif
+                </div>
 
                 <x-inputs.input readonly="{{ $type === 'read' ? true : false }}" name="nama" label="Name"
                     type="text" value="{{ isset($data) ? $data->profile->nama : '' }}" />
@@ -128,11 +135,25 @@
                         'tidak ada' => 'Tidak Ada',
                     ];
 
-                @endphp
-                <x-inputs.select label="MCU" readonly="{{ $type === 'read' ? true : false }}" name="mcu"
-                    :options="$mcuOptions" :selected="['tidak ada' => 'Tidak Ada']" />
+                    $selectedMcu = ['tidak ada' => 'Tidak Ada'];
 
-                <div id="foto_mcu" class="hidden">
+                    if (isset($data)) {
+                        $selectedMcu = [
+                            $data->profile->mcu => ucfirst($data->profile->mcu),
+                        ];
+                    }
+                @endphp
+                <div class="flex flex-col gap-2">
+                    <x-inputs.select label="MCU" readonly="{{ $type === 'read' ? true : false }}" name="mcu"
+                        :options="$mcuOptions" :selected="$selectedMcu" />
+                    @if (!is_null($data->profile->foto_mcu) && $data->profile->mcu === 'ada')
+                        <a href="{{ $data->profile->foto_mcu }}"
+                            class="border-b border-b-gray-400 border-dotted hover:border-b-black text-sm w-min whitespace-nowrap">Lihat
+                            MCU</a>
+                    @endif
+                </div>
+
+                <div id="foto_mcu" class="@if ($data->profile->mcu === 'tidak ada') hidden @endif">
                     <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
                         accept="image/*" />
                 </div>
@@ -214,7 +235,7 @@
                 <x-inputs.select label="Status Pernikahan" readonly="{{ $type === 'read' ? true : false }}"
                     name="status_pernikahan" :options="$statusPernikahanOptions" :selected="$selectedStatus" />
 
-                <div id="anak" class="hidden">
+                <div id="anak" class="@if ($data->profile->status_pernikahan === 'belum menikah') hidden @endif"">
                     <x-inputs.input
                         readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
                         readonly="{{ $type === 'read' ? true : false }}" name="anak" label="Jumlah Anak"
