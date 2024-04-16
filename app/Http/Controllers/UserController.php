@@ -55,7 +55,7 @@ class UserController extends Controller
 
             if (Auth::user()->hasRole('manager')) {
                 $type = 'read';
-            } else {
+            } elseif (Auth::user()->hasRole('user')) {
                 $type = 'profile';
             }
 

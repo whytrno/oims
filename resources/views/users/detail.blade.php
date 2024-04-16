@@ -66,18 +66,18 @@
 
                     $selectedRole = [$selectedRoleId => $selectedRoleName];
                 @endphp
-                <x-inputs.select readonly="{{$type === 'view' ? 'true' : 'false'}}" label="Role" name="role_id"
+                <x-inputs.select readonly="{{$type === 'read' ? true : false}}" label="Role" name="role_id"
                                  :options="$roleOptions" :selected="$selectedRole"/>
                 @endunlessrole
 
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="email" label="Email"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="email" label="Email"
                                 type="email"
                                 value="{{ isset($data) ? $data->email : '' }}"/>
 
                 @if($type === 'update' || $type === 'create' || $type === 'profile')
-                    <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="password" label="Password"
+                    <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="password" label="Password"
                                     type="password" value=""/>
-                    <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="password_confirmation"
+                    <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="password_confirmation"
                                     label="Password Confirmation" type="password" value=""/>
                 @endif
             </div>
@@ -86,39 +86,39 @@
 
             <h1 class="text-lg font-semibold">Profile</h1>
             <div class="grid md:grid-cols-2 gap-10">
-                <x-inputs.file readonly="{{$type === 'view' ? 'true' : 'false'}}" name="foto" label="Foto"
+                <x-inputs.file readonly="{{$type === 'read' ? true : false}}" name="foto" label="Foto"
                                accept="image/*" class="hidden"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="nama" label="Name" type="text"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="nama" label="Name" type="text"
                                 value="{{ isset($data) ? $data->profile->nama : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="no_hp" label="No. HP"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_hp" label="No. HP"
                                 type="number"
                                 value="{{ isset($data) ? $data->profile->no_hp : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="nik" label="NIK" type="number"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="nik" label="NIK" type="number"
                                 value="{{ isset($data) ? $data->profile->nik : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="tgl_lahir"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="tgl_lahir"
                                 label="Tanggal Lahir" type="date"
                                 value="{{ isset($data) ? $data->profile->tgl_lahir : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="tempat_lahir"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="tempat_lahir"
                                 label="Tempat Lahir" type="text"
                                 value="{{ isset($data) ? $data->profile->tempat_lahir : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="domisili" label="Domisili"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="domisili" label="Domisili"
                                 type="text"
                                 value="{{ isset($data) ? $data->profile->domisili : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="alamat_ktp" label="Alamat KTP"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="alamat_ktp" label="Alamat KTP"
                                 type="text"
                                 value="{{ isset($data) ? $data->profile->alamat_ktp : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="kontak_darurat"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="kontak_darurat"
                                 label="Kontak Darurat" type="number"
                                 value="{{ isset($data) ? $data->profile->kontak_darurat : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="no_rek_bca" label="No. Rek BCA"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_rek_bca" label="No. Rek BCA"
                                 type="number"
                                 value="{{ isset($data) ? $data->profile->no_rek_bca : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="tgl_bergabung"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="tgl_bergabung"
                                 label="Tanggal Bergabung" type="date"
                                 value="{{ isset($data) ? $data->profile->tgl_bergabung : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="nrp" label="NRP" type="text"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="nrp" label="NRP" type="text"
                                 value="{{ isset($data) ? $data->profile->nrp : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'view' ? 'true' : 'false'}}" name="no_kontrak" label="No. Kontrak"
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_kontrak" label="No. Kontrak"
                                 type="number"
                                 value="{{ isset($data) ? $data->profile->no_kontrak : '' }}"/>
 
@@ -129,7 +129,7 @@
                     ];
 
                 @endphp
-                <x-inputs.select label="MCU" readonly="{{$type === 'view' ? 'true' : 'false'}}" name="mcu"
+                <x-inputs.select label="MCU" readonly="{{$type === 'read' ? true : false}}" name="mcu"
                                  :options="$mcuOptions" :selected="['ada' => 'Ada']"/>
 
                 @php
@@ -146,7 +146,7 @@
                         ];
                     }
                 @endphp
-                <x-inputs.select label="Status Kontrak" readonly="{{$type === 'view' ? 'true' : 'false'}}"
+                <x-inputs.select label="Status Kontrak" readonly="{{$type === 'read' ? true : false}}"
                                  name="status_kontrak" :options="$statusKontrakOptions"
                                  :selected="$selectedStatusKontrak"/>
 
@@ -166,7 +166,7 @@
                         $selectedAgama = [$data->profile->agama => ucfirst($data->profile->agama)];
                     }
                 @endphp
-                <x-inputs.select label="Agama" readonly="{{$type === 'view' ? 'true' : 'false'}}" name="agama"
+                <x-inputs.select label="Agama" readonly="{{$type === 'read' ? true : false}}" name="agama"
                                  :options="$agamaOptions" :selected="$selectedAgama"/>
 
                 @php
@@ -188,7 +188,7 @@
                         ];
                     }
                 @endphp
-                <x-inputs.select label="Pendidikan Terakhir" readonly="{{$type === 'view' ? 'true' : 'false'}}"
+                <x-inputs.select label="Pendidikan Terakhir" readonly="{{$type === 'read' ? true : false}}"
                                  name="pendidikan_terakhir" :options="$pendidikanOptions"
                                  :selected="$selectedPendidikan"/>
 
@@ -208,13 +208,13 @@
                         ];
                     }
                 @endphp
-                <x-inputs.select label="Status Pernikahan" readonly="{{$type === 'view' ? 'true' : 'false'}}"
+                <x-inputs.select label="Status Pernikahan" readonly="{{$type === 'read' ? true : false}}"
                                  name="status_pernikahan" :options="$statusPernikahanOptions"
                                  :selected="$selectedStatus"/>
 
                 <x-inputs.input
                         readonly="{{ isset($data) && $data->profile->status_pernikahan == 'belum menikah' ? 'true' : 'false' }}"
-                        readonly="{{$type === 'view' ? 'true' : 'false'}}" name="anak" label="Jumlah Anak" type="number"
+                        readonly="{{$type === 'read' ? true : false}}" name="anak" label="Jumlah Anak" type="number"
                         value="{{ isset($data) ? $data->profile->anak : '' }}"/>
 
                 @if($type === 'update' && $type === 'create' && $type === 'profile')
