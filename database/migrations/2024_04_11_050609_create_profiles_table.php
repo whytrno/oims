@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -25,8 +24,12 @@ return new class extends Migration
             $table->enum('agama', ['islam', 'kristen', 'katolik', 'hindu', 'budha', 'konghucu'])->nullable();
             $table->enum('status_pernikahan', ['belum menikah', 'menikah', 'cerai'])->nullable();
             $table->integer('anak')->nullable();
-            $table->string('kontak_darurat')->nullable();
+            $table->string('nama_kontak_darurat')->nullable();
+            $table->string('hubungan_kontak_darurat')->nullable();
+            $table->string('no_kontak_darurat')->nullable();
             $table->enum('mcu', ['ada', 'tidak ada'])->nullable();
+            $table->string('foto_mcu')->nullable();
+            $table->string('foto_ktp')->nullable();
             $table->string('no_rek_bca')->nullable();
             $table->enum('pendidikan_terakhir', ['sd', 'smp', 'sma', 'd3', 's1', 's2', 's3'])->nullable();
             $table->date('tgl_bergabung')->nullable();

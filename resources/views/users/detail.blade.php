@@ -88,6 +88,9 @@
             <div class="grid md:grid-cols-2 gap-10">
                 <x-inputs.file readonly="{{$type === 'read' ? true : false}}" name="foto" label="Foto"
                                accept="image/*" class="hidden"/>
+                <x-inputs.file readonly="{{$type === 'read' ? true : false}}" name="foto_ktp" label="Foto KTP"
+                               accept="image/*"/>
+
                 <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="nama" label="Name" type="text"
                                 value="{{ isset($data) ? $data->profile->nama : '' }}"/>
                 <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_hp" label="No. HP"
@@ -107,9 +110,17 @@
                 <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="alamat_ktp" label="Alamat KTP"
                                 type="text"
                                 value="{{ isset($data) ? $data->profile->alamat_ktp : '' }}"/>
-                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="kontak_darurat"
-                                label="Kontak Darurat" type="number"
-                                value="{{ isset($data) ? $data->profile->kontak_darurat : '' }}"/>
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="nama_kontak_darurat"
+                                label="Nama Kontak Darurat"
+                                type="text"
+                                value="{{ isset($data) ? $data->profile->nama_kontak_darurat : '' }}"/>
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="hubungan_kontak_darurat"
+                                label="Hubungan Kontak Darurat"
+                                type="text"
+                                value="{{ isset($data) ? $data->profile->hubungan_kontak_darurat : '' }}"/>
+                <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_kontak_darurat"
+                                label="Nomor Kontak Darurat" type="number"
+                                value="{{ isset($data) ? $data->profile->no_kontak_darurat : '' }}"/>
                 <x-inputs.input readonly="{{$type === 'read' ? true : false}}" name="no_rek_bca" label="No. Rek BCA"
                                 type="number"
                                 value="{{ isset($data) ? $data->profile->no_rek_bca : '' }}"/>
@@ -131,6 +142,9 @@
                 @endphp
                 <x-inputs.select label="MCU" readonly="{{$type === 'read' ? true : false}}" name="mcu"
                                  :options="$mcuOptions" :selected="['ada' => 'Ada']"/>
+
+                <x-inputs.file readonly="{{$type === 'read' ? true : false}}" name="foto_mcu" label="Foto MCU"
+                               accept="image/*"/>
 
                 @php
                     $statusKontrakOptions = [
@@ -242,6 +256,15 @@
         $('select[name="role_id"]').on('change', function () {
             var selectedText = $(this).find('option:selected').text();
             $('#role-name').text(selectedText);
+        });
+        $('select[name="mcu"]').on('change', function () {
+            var selectedText = $(this).find('option:selected').text();
+
+            if (selectedText === 'ada') {
+                $('input[name="foto_mcu"]').prop('readonly', false);
+            } else {
+                $('input[name="foto_mcu"]').prop('readonly', true);
+            }
         });
         $('select[name="status_pernikahan"]').on('change', function () {
             var selectedText = $(this).find('option:selected').text();
