@@ -36,7 +36,7 @@
                         src="">
                 @else
                     <img id="profile-input-preview"
-                        class="absolute object-cover hidden inset-0 z-10 aspect-square size-14 rounded-full" alt="Foto"
+                        class="absolute object-cover inset-0 z-10 aspect-square size-14 rounded-full" alt="Foto"
                         src="{{ $data->profile->foto }}">
                 @endif
             </span>
