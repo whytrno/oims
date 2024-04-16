@@ -13,9 +13,11 @@
 @section('dashboard-content')
     <div class="border rounded-lg h-full p-5 space-y-5">
         <div class="flex gap-3 items-center">
-            <span @if ($type !== 'view') onclick="$('#foto').click()" @endif
-                class="relative flex shrink-0 overflow-hidden rounded-full size-14 cursor-pointer">
-                @if (!isset($data))
+            <span @if ($type !== 'read') onclick="$('#foto').click()" @endif @class([
+                'relative flex shrink-0 overflow-hidden rounded-full size-14',
+                'cursor-pointer' => $type !== 'read',
+            ])>
+                @if ($type === 'read')
                     <div
                         class="h-full w-full rounded-full flex items-center justify-center bg-gray-200 text-gray-600 font-semibold">
                         U
@@ -29,8 +31,11 @@
                         class="h-full w-full rounded-full flex items-center justify-center bg-gray-200 text-gray-600 font-semibold">
                         {{ ucfirst($fallback) }}
                     </div>
+                    <img id="profile-input-preview" class="absolute hidden inset-0 z-10 aspect-square size-14 rounded-full"
+                        alt="Foto" src="">
                 @else
-                    <img class="aspect-square size-14 rounded-full" alt="Foto" src="{{ $data->profile->foto }}">
+                    <img id="profile-input-preview" class="absolute hidden inset-0 z-10 aspect-square size-14 rounded-full"
+                        alt="Foto" src="{{ $data->profile->foto }}">
                 @endif
             </span>
             <div class="capitalize">
@@ -70,7 +75,7 @@
                 <x-inputs.input readonly="{{ $type === 'read' ? true : false }}" name="email" label="Email"
                     type="email" value="{{ isset($data) ? $data->email : '' }}" />
 
-                @if ($type === 'update' || $type === 'create' || $type === 'profile')
+                @if ($type !== 'read')
                     <x-inputs.input readonly="{{ $type === 'read' ? true : false }}" name="password" label="Password"
                         type="password" value="" />
                     <x-inputs.input readonly="{{ $type === 'read' ? true : false }}" name="password_confirmation"
@@ -83,13 +88,16 @@
             <h1 class="text-lg font-semibold">Profile</h1>
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="hidden">
-                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto" label="Foto"
-                        accept="image/*" />
+                    <x-inputs.file
+                        value="{{ isset($data) ? $data->profile->foto : '' }}"readonly="{{ $type === 'read' ? true : false }}"
+                        name="foto" label="Foto" accept="image/*" />
                 </div>
+
                 <div class="flex flex-col gap-2">
-                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
+                    <x-inputs.file value="{{ isset($data) ? $data->profile->foto_ktp : '' }}"
+                        readonly="{{ $type === 'read' ? true : false }}" name="foto_ktp" label="Foto KTP"
                         accept="image/*" />
-                    @if ($data->profile->foto_ktp)
+                    @if (isset($data) && $data->profile->foto_ktp)
                         <a href="{{ $data->profile->foto_ktp }}"
                             class="border-b border-b-gray-400 border-dotted hover:border-b-black text-sm w-min whitespace-nowrap">Lihat
                             KTP</a>
@@ -154,7 +162,8 @@
                 </div>
 
                 <div id="foto_mcu" class="@if ($data->profile->mcu === 'tidak ada') hidden @endif">
-                    <x-inputs.file readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
+                    <x-inputs.file value="{{ isset($data) ? $data->profile->foto_mcu : '' }}"
+                        readonly="{{ $type === 'read' ? true : false }}" name="foto_mcu" label="Foto MCU"
                         accept="image/*" />
                 </div>
 
@@ -242,7 +251,7 @@
                         type="number" value="{{ isset($data) ? $data->profile->anak : '' }}" />
                 </div>
 
-                @if ($type !== 'view')
+                @if ($type !== 'read')
                     <x-button title="Submit" type="submit" />
                 @endif
             </div>
@@ -256,6 +265,7 @@
             const file = $(this)[0].files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
+                $('#profile-input-preview').removeClass('hidden');
                 $('#profile-input-preview').attr('src', e.target.result);
             }
             reader.readAsDataURL(file);

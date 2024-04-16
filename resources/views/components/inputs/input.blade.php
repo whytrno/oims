@@ -1,6 +1,5 @@
-<div class="space-y-2 {{ $class ?? '' }}">
-    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        for=":rr:-form-item">
+<div class="space-y-2">
+    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         {{ $label }}
     </label>
     <input @readonly(isset($readonly) ? $readonly : false) id="input-{{ $name }}"
@@ -14,13 +13,3 @@
         </div>
     @endif
 </div>
-
-@push('scripts')
-    <script type="module">
-        const disabeldVar = {{ $disabled ?? 'false' }}
-
-        if (disabeldVar) {
-            $('#input-{{ $name }}').prop('disabled', true)
-        }
-    </script>
-@endpush
