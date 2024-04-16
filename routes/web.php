@@ -14,7 +14,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'karyawan'], function () {
         Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
             Route::get('/', [UserController::class, 'index'])->name('users');
-            Route::get('/delete/{user_id}', [UserController::class, 'detail'])->name('users.delete');
+            Route::get('/delete/{user_id}', [UserController::class, 'delete'])->name('users.delete');
             Route::get('export', [UserController::class, 'export'])->name('users.export');
             Route::get('/detail/{user_id}', [UserController::class, 'detail'])->name('users.detail');
 
