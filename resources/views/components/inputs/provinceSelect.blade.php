@@ -6,6 +6,13 @@
     foreach ($provinces as $province) {
         $provinceOptions[$province->name] = $province->id;
     }
+    $others = [
+        'Pilih Provinsi' => 'Pilih Provinsi',
+        'HO' => 'HO'
+    ];
+
+    $provinces = array_merge($others, $provinces);
+    $provinceOptions = array_merge($others, $provinceOptions);
 @endphp
 
 <div class="space-y-2 px">
@@ -35,6 +42,19 @@
             var selectedProvinceName = this.value;
 
             var selectedProvinceId = {!! json_encode($provinceOptions) !!}[selectedProvinceName];
+
+            // add HO on the list
+            if (selectedProvinceName === 'HO') {
+                var kabupatenOptions = document.getElementById('kabupaten');
+                kabupatenOptions.innerHTML = '';
+
+                var option = document.createElement('option');
+                option.value = 'HO';
+                option.text = 'HO';
+                kabupatenOptions.appendChild(option);
+
+                return;
+            }
 
             fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json`)
                 .then(response => response.json())
