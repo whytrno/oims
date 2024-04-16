@@ -31,11 +31,13 @@
                         class="h-full w-full rounded-full flex items-center justify-center bg-gray-200 text-gray-600 font-semibold">
                         {{ ucfirst($fallback) }}
                     </div>
-                    <img id="profile-input-preview" class="absolute hidden inset-0 z-10 aspect-square size-14 rounded-full"
-                        alt="Foto" src="">
+                    <img id="profile-input-preview"
+                        class="absolute object-cover hidden inset-0 z-10 aspect-square size-14 rounded-full" alt="Foto"
+                        src="">
                 @else
-                    <img id="profile-input-preview" class="absolute hidden inset-0 z-10 aspect-square size-14 rounded-full"
-                        alt="Foto" src="{{ $data->profile->foto }}">
+                    <img id="profile-input-preview"
+                        class="absolute object-cover hidden inset-0 z-10 aspect-square size-14 rounded-full" alt="Foto"
+                        src="{{ $data->profile->foto }}">
                 @endif
             </span>
             <div class="capitalize">
