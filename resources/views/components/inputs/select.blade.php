@@ -1,5 +1,5 @@
 <div class="space-y-2 px">
-    @if(isset($readonly) || $readonly === false)
+    @if(isset($readonly) && !$readonly)
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {{ $label }}
         </label>
