@@ -217,7 +217,7 @@
                         readonly="{{$type === 'read' ? true : false}}" name="anak" label="Jumlah Anak" type="number"
                         value="{{ isset($data) ? $data->profile->anak : '' }}"/>
 
-                @if($type === 'update' && $type === 'create' && $type === 'profile')
+                @if($type !== 'view')
                     <x-button title="Submit" type="submit"/>
                 @endif
             </div>
