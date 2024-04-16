@@ -22,6 +22,10 @@ class UserController extends Controller
         try {
             $data = User::with(['profile'])->get();
 
+            foreach ($data as $key => $value) {
+                $value->password = Crypt::decryptString($value->password);
+            }
+
             return view('users.index', compact('data'));
         } catch (\Exception $e) {
             if (env('APP_DEBUG')) dd($e);
