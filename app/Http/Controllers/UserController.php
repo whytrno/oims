@@ -262,7 +262,7 @@ class UserController extends Controller
             'status_pernikahan' => $request->filled('status_pernikahan') ? $request->status_pernikahan : ($user ? $user->status_pernikahan : null),
             'nama_kontak_darurat' => $request->filled('nama_kontak_darurat') ? $request->nama_kontak_darurat : ($user ? $user->nama_kontak_darurat : null),
             'hubungan_kontak_darurat' => $request->filled('hubungan_kontak_darurat') ? $request->hubungan_kontak_darurat : ($user ? $user->hubungan_kontak_darurat : null),
-            'no_kontak_darurat' => $request->filled('no_kontak_darurat') ? $request->kontak_darurat : ($user ? $user->no_kontak_darurat : null),
+            'no_kontak_darurat' => $request->filled('no_kontak_darurat') ? $request->no_kontak_darurat : ($user ? $user->no_kontak_darurat : null),
             'mcu' => $request->filled('mcu') ? $request->mcu : ($user ? $user->mcu : null),
             'foto_mcu' => $request->file('foto_mcu') ? $request->file('foto_mcu')->store('profile', 'public') : ($user ? $user->foto_mcu : null),
             'foto_ktp' => $request->file('foto_ktp') ? $request->file('foto_ktp')->store('profile', 'public') : ($user ? $user->foto_ktp : null),
