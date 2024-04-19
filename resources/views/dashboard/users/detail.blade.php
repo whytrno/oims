@@ -6,7 +6,7 @@
             </x-iconButton>
         @endrole
     @elseif($_page === 'edit')
-        <x-iconButton :href="route('users.sites', $userId)" icon="mdi:location-check-outline">
+        <x-iconButton :href="route('users.sites.detail', $userId)" icon="mdi:location-check-outline">
             Lokasi Site
         </x-iconButton>
     @endif

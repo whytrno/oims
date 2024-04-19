@@ -13,5 +13,5 @@
 </x-layouts.pageActions>
 
 <div>
-    @livewire('UserTable')
+    @livewire('Tables.UserTable')
 </div>

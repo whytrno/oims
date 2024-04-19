@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use App\Models\SiteLocation;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 
-class SiteController extends Component
+class SiteLocationPage extends Component
 {
     public $_page = 'view';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use Livewire\Component;
 use App\Models\User;
@@ -9,7 +9,7 @@ use Masmerise\Toaster\Toaster;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticationController extends Component
+class AuthenticationPage extends Component
 {
     public $_page = 'login';
 
@@ -53,11 +53,10 @@ class AuthenticationController extends Component
 
             if (!$user || $this->password !== Crypt::decryptString($user->password)) {
                 Toaster::error('Email or password is wrong');
+            } else {
+                Auth::login($user);
+                return redirect()->route('dashboard');
             }
-
-            Auth::login($user);
-
-            return redirect()->route('dashboard');
         } catch (\Exception $e) {
             dd($e);
         }

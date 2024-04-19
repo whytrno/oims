@@ -16,6 +16,11 @@ class UserSiteLocation extends Model
         'tgl_kembali',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function siteLocation()
     {
         return $this->belongsTo(SiteLocation::class);

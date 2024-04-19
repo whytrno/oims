@@ -16,8 +16,13 @@
                             'icon' => 'mdi:home',
                         ],
                         [
-                            'name' => 'Users',
+                            'name' => 'Karyawan',
                             'route' => 'users',
+                            'icon' => 'mdi:account-group',
+                        ],
+                        [
+                            'name' => 'Penempatan Karyawan',
+                            'route' => 'users.sites',
                             'icon' => 'mdi:account-group',
                         ],
                         [

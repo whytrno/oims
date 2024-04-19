@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use App\Http\Traits\UploadFile;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
 use Masmerise\Toaster\Toaster;
 
 
-class UserController extends Component
+class UserPage extends Component
 {
     use WithFileUploads, UploadFile;
 

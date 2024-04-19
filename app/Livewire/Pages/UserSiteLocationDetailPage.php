@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use App\Models\SiteLocation;
 use App\Models\UserSiteLocation;
@@ -8,7 +8,7 @@ use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 use Livewire\Attributes\On;
 
-class UserSiteLocationController extends Component
+class UserSiteLocationDetailPage extends Component
 {
     public $userId;
     public $data;
@@ -60,7 +60,7 @@ class UserSiteLocationController extends Component
     {
         $siteLocationOptions = SiteLocation::pluck('name', 'id')->toArray();
 
-        return view('dashboard.users.sites.index', [
+        return view('dashboard.users.sites.detail', [
             'data' => $this->data,
             'siteLocationOptions' => $siteLocationOptions
         ]);

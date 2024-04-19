@@ -1,35 +1,37 @@
 <?php
 
 use App\Http\Middleware\RoleMiddleware;
-use App\Livewire\DashboardController;
-use App\Livewire\SiteController;
-use App\Livewire\UserSiteLocationController;
-use App\Livewire\UserController;
+use App\Livewire\Pages\DashboardPage;
+use App\Livewire\Pages\SiteLocationPage;
+use App\Livewire\Pages\UserSiteLocationDetailPage;
+use App\Livewire\Pages\UserSiteLocationPage;
+use App\Livewire\Pages\UserPage;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', DashboardPage::class)->name('dashboard');
     });
 
     Route::group(['prefix' => 'karyawan'], function () {
-        Route::get('/', UserController::class)->name('users');
-        Route::get('/{userId}/detail', UserController::class)->name('users.show');
+        Route::get('/', UserPage::class)->name('users');
+        Route::get('/{userId}/detail', UserPage::class)->name('users.show');
+        Route::get('/{userId}/penempatan', UserSiteLocationDetailPage::class)->name('users.sites.detail');
 
-        Route::group(['prefix' => '{userId}/penempatan'], function () {
-            Route::get('/', UserSiteLocationController::class)->name('users.sites');
+        Route::group(['prefix' => 'penempatan'], function () {
+            Route::get('/', UserSiteLocationPage::class)->name('users.sites');
         });
 
         Route::group(['middleware' => [RoleMiddleware::class . ':admin']], function () {
-            Route::get('/create', [UserController::class, 'create'])->name('users.create');
-            Route::post('/store', [UserController::class, 'store'])->name('users.store');
-            Route::post('/update/{user_id}', [UserController::class, 'update'])->name('users.update');
+            Route::get('/create', [UserPage::class, 'create'])->name('users.create');
+            Route::post('/store', [UserPage::class, 'store'])->name('users.store');
+            Route::post('/update/{user_id}', [UserPage::class, 'update'])->name('users.update');
         });
     });
 
     Route::group(['prefix' => 'penempatan'], function () {
         Route::group(['middleware' => [RoleMiddleware::class . ':admin']], function () {
-            Route::get('/', SiteController::class)->name('sites');
+            Route::get('/', SiteLocationPage::class)->name('sites');
         });
     });
 
