@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
-        Route::get('/', DashboardController::class)->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     });
 
     Route::group(['prefix' => 'karyawan'], function () {
