@@ -4,6 +4,20 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
+    './vendor/masmerise/livewire-toaster/resources/views/*.blade.php',
+    // PowerGrid
+    './app/Http/Livewire/**/*Table.php',
+    './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
+    './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php',
+    // Modal
+    './vendor/wire-elements/modal/resources/views/*.blade.php',
+    './storage/framework/views/*.php',
+  ],
+  safelist: [
+    {
+      pattern: /max-w-(sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl)/,
+      variants: ['sm', 'md', 'lg', 'xl', '2xl']
+    }
   ],
   prefix: "",
   theme: {
@@ -82,4 +96,5 @@ export default {
   plugins: [
     require("tailwindcss-animate")
   ],
+  darkMode: 'false',
 }

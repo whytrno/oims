@@ -1,3 +1,7 @@
+@props([
+    'pageTitleActions' => null,
+])
+
 <!doctype html>
 <html>
 
@@ -6,34 +10,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
     <title>OimsApps</title>
-    <script defer src="https://unpkg.com/alpinejs@3.13.8/dist/cdn.min.js"></script>
     @vite('resources/js/app.js')
+    @livewireStyles
+    <style>
+        [x-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen bg-background font-sans antialiased">
+<body>
+    <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        {{-- SIDEBAR --}}
+        <x-sidebar />
+        <div class="flex flex-col">
+            {{-- NAVBAR --}}
+            <x-navbar />
+            <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 w-screen lg:w-full">
+                {{-- PAGE TITLE --}}
+                <x-pageTitle :pageTitleActions="$pageTitleActions" />
 
-@yield('content')
-
-{{-- TOAST --}}
-@if (session()->has('toast_message'))
-    <div id="toast-message"
-         class="fixed bottom-10 right-10 animate-in slide-in-from-bottom md:w-1/4 p-5 bg-white border shadow-sm rounded-lg">
-        <p>
-            {{ session('toast_message') }}
-        </p>
+                {{-- MAIN --}}
+                @if ($slot->isEmpty())
+                    This is default content if the slot is empty.
+                @else
+                    {{ $slot }}
+                @endif
+            </main>
+        </div>
     </div>
-@endif
 
-@stack('scripts')
+    <x-toaster-hub />
 
-<script>
-    setTimeout(function () {
-        var toastMessage = document.getElementById('toast-message');
-        if (toastMessage) {
-            toastMessage.remove();
-        }
-    }, 2000);
-</script>
+    {{-- MODAL --}}
+    {{-- <x-showImage @showModal="showModal($event)" /> --}}
+
+    @livewire('wire-elements-modal')
+
+    {{-- SCRIPTS --}}
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

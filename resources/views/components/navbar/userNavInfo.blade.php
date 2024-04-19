@@ -4,7 +4,7 @@
         <p>{{ Auth::user()->profile->nama }}</p>
         <p class="text-xs">{{ Auth::user()->getRoleNames()->first() }}</p>
     </div>
-    <button onclick="toggleUserNavModal()"
+    <button @click="userNavModal = !userNavModal"
         class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 w-9 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

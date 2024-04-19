@@ -14,13 +14,18 @@ return new class extends Migration
         Schema::create('user_site_locations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('provinsi');
-            $table->string('kabupaten');
+            $table->unsignedBigInteger('site_location_id');
+            $table->date('tgl_keberangkatan');
+            $table->date('tgl_kembali');
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('site_location_id')
+                ->references('id')
+                ->on('site_locations')
                 ->onDelete('cascade');
         });
     }

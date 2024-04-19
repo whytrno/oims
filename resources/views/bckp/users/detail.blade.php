@@ -243,7 +243,7 @@
                 </div>
 
                 @if ($type !== 'view')
-                    <x-button title="Submit" type="submit" />
+                    <x-link title="Submit" type="submit" />
                 @endif
             </div>
         </form>

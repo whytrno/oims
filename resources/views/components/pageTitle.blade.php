@@ -1,3 +1,7 @@
+@props([
+    'pageTitleActions' => null,
+])
+
 <div class="flex justify-between items-center">
     <div class="flex flex-col gap-1">
         @php
@@ -41,5 +45,6 @@
         </nav>
     </div>
 
-    @yield('page-title-actions')
+    {{-- @yield('page-title-actions') --}}
+    {{ $pageTitleActions }}
 </div>

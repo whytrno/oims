@@ -9,5 +9,15 @@ class UserSiteLocation extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'user_id',
+        'site_location_id',
+        'tgl_keberangkatan',
+        'tgl_kembali',
+    ];
+
+    public function siteLocation()
+    {
+        return $this->belongsTo(SiteLocation::class);
+    }
 }

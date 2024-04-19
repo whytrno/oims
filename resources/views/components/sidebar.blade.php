@@ -21,6 +21,11 @@
                             'icon' => 'mdi:account-group',
                         ],
                         [
+                            'name' => 'Penempatan',
+                            'route' => 'sites',
+                            'icon' => 'mdi:account-group',
+                        ],
+                        [
                             'name' => 'Profile',
                             'route' => 'profile',
                             'icon' => 'mdi:account',
@@ -31,7 +36,7 @@
                     @if (Auth()->user()->hasRole('user') && $navLink['name'] != 'Profile')
                         @continue
                     @endif
-                    <a href={{ route($navLink['route']) }}
+                    <a href={{ route($navLink['route']) }} wire:navigate
                         class="flex items-center gap-3 rounded-lg px-5 py-3 transition-all {{ Request::routeIs($navLink['route']) ? 'bg-primary text-white' : 'text-muted-foreground hover:text-primary' }}">
                         <iconify-icon icon="{{ $navLink['icon'] }}" observer="false"></iconify-icon>
                         {{ $navLink['name'] }}
