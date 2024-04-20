@@ -1,8 +1,8 @@
-@props(['title', 'description' => null, 'footer' => null, 'class' => 'col-span-3'])
+@props(['title', 'description' => null, 'footer' => null, 'class' => 'lg:col-span-3'])
 
 <div @class([
     $class,
-    'p-4 rounded-lg border border-dashed shadow-sm space-y-2',
+    'col-span-6 p-4 rounded-lg border border-dashed shadow-sm space-y-2',
 ])>
     <h1 class="font-semibold">{{ $title }}</h1>
     @if ($description)

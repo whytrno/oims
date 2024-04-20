@@ -1,20 +1,20 @@
 {{-- <x-emptyPage title="Dashboard" description="Selamat datang di dashboard" /> --}}
 <div class="grid grid-cols-6 gap-5 w-full">
-    <x-card class="col-span-2 bg-green-100">
+    <x-card class="lg:col-span-2 bg-green-100">
         <x-slot:title>
             Total Karyawan
         </x-slot:title>
 
         <h1 class="text-2xl font-bold">{{ $karyawan }} Karyawan</h1>
     </x-card>
-    <x-card class="col-span-2 bg-blue-100">
+    <x-card class="lg:col-span-2 bg-blue-100">
         <x-slot:title>
             Karyawan yang akan berangkat 7 hari dari sekarang
         </x-slot:title>
 
         <h1 class="text-2xl font-bold">{{ $karyawanYangAkanBerangkat }} Karyawan</h1>
     </x-card>
-    <x-card class="col-span-2 bg-red-100">
+    <x-card class="lg:col-span-2 bg-red-100">
         <x-slot:title>
             Karyawan yang akan berangkat 7 hari dari sekarang
         </x-slot:title>
