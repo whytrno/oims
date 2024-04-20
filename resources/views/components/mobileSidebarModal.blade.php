@@ -14,16 +14,39 @@
                     'name' => 'Dashboard',
                     'route' => 'dashboard',
                     'icon' => 'mdi:home',
+                    'roles' => ['admin', 'manager'],
                 ],
                 [
-                    'name' => 'Users',
+                    'name' => 'Karyawan',
                     'route' => 'users',
                     'icon' => 'mdi:account-group',
+                    'roles' => ['admin', 'manager'],
+                ],
+                [
+                    'name' => 'Penempatan Karyawan',
+                    'route' => 'users.sites',
+                    'icon' => 'mdi:account-group',
+                    'roles' => ['admin', 'manager'],
+                ],
+                [
+                    'name' => 'Penempatan',
+                    'route' => 'sites',
+                    'icon' => 'mdi:account-group',
+                    'roles' => ['admin'],
+                ],
+                [
+                    'name' => 'Profile',
+                    'route' => 'profile',
+                    'icon' => 'mdi:account',
+                    'roles' => ['admin', 'manager', 'user'],
                 ],
             ];
         @endphp
 
         @foreach ($navLinks as $navLink)
+            @if (!in_array(auth()->user()->getRoleNames()->first(), $navLink['roles']))
+                @continue
+            @endif
             <a class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 href="{{ route($navLink['route']) }}">
                 <iconify-icon icon="{{ $navLink['icon'] }}" class="w-6 h-6"></iconify-icon>
