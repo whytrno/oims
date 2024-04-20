@@ -9,7 +9,7 @@
                     <x-inputs.input name="tgl_kembali" label="Tanggal Kembali" type="date" :min="$tgl_keberangkatan" />
                 </div>
 
-                <x-button type="submit" width="full">
+                <x-button type="button" buttonType="submit" width="full" :disabled="$_disabled">
                     Submit
                 </x-button>
             </div>

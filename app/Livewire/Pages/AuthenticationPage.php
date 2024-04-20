@@ -55,7 +55,7 @@ class AuthenticationPage extends Component
                 Toaster::error('Email or password is wrong');
             } else {
                 Auth::login($user);
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboard')->success('Login success');
             }
         } catch (\Exception $e) {
             dd($e);

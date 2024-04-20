@@ -6,6 +6,7 @@ use App\Livewire\Pages\SiteLocationPage;
 use App\Livewire\Pages\UserSiteLocationDetailPage;
 use App\Livewire\Pages\UserSiteLocationPage;
 use App\Livewire\Pages\UserPage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -14,18 +15,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => 'karyawan'], function () {
-        Route::get('/', UserPage::class)->name('users');
-        Route::get('/{userId}/detail', UserPage::class)->name('users.show');
-        Route::get('/{userId}/penempatan', UserSiteLocationDetailPage::class)->name('users.sites.detail');
+        Route::group(['middleware' => [RoleMiddleware::class . ':admin,manager']], function () {
+            Route::get('/', UserPage::class)->name('users');
+            Route::get('/{userId}/detail', UserPage::class)->name('users.show');
+            Route::get('/{userId}/penempatan', UserSiteLocationDetailPage::class)->name('users.sites.detail');
 
-        Route::group(['prefix' => 'penempatan'], function () {
-            Route::get('/', UserSiteLocationPage::class)->name('users.sites');
-        });
-
-        Route::group(['middleware' => [RoleMiddleware::class . ':admin']], function () {
-            Route::get('/create', [UserPage::class, 'create'])->name('users.create');
-            Route::post('/store', [UserPage::class, 'store'])->name('users.store');
-            Route::post('/update/{user_id}', [UserPage::class, 'update'])->name('users.update');
+            Route::group(['prefix' => 'penempatan'], function () {
+                Route::get('/', UserSiteLocationPage::class)->name('users.sites');
+            });
         });
     });
 
@@ -35,7 +32,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
     });
 
-    include 'child/web/auth.php';
+
+    Route::get('profile', UserPage::class)->name('profile');
+    Route::get('logout', function () {
+        try {
+            Auth::guard("web")->logout();
+            return redirect()->route('login')->success('Logout success');
+        } catch (\Exception $e) {
+            return redirect()->back()->error($e->getMessage());
+        }
+    })->name('logout');
 });
 
 Route::group(['middleware' => ['guest']], function () {

@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 
 class UserSiteLocationDetailPage extends Component
 {
+    public $_disabled = true;
     public $userId;
     public $data;
     public $site_location_id = '';
@@ -18,6 +19,10 @@ class UserSiteLocationDetailPage extends Component
 
     public function mount($userId)
     {
+        if (auth()->user()->hasRole('admin')) {
+            $this->_disabled = false;
+        }
+
         $this->userId = $userId;
         $this->data = UserSiteLocation::where('user_id', $this->userId)->orderBy('id', 'DESC')->get();
     }

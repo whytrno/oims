@@ -1,9 +1,11 @@
 @props(['name', 'label', 'type' => 'text', 'disabled' => false, 'min' => null, 'max' => null])
 
 @php
-    if (auth()->check()) {
-        $disabled = auth()->user()->getRoleNames()->first() === 'admin' ? false : true;
-    }
+    // if (auth()->check()) {
+    //     $disabled = auth()->user()->getRoleNames()->first() === 'admin' ? false : true;
+    // } else {
+    //     $disabled = false;
+    // }
 @endphp
 
 <div class="grid gap-2">

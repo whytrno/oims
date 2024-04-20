@@ -71,7 +71,7 @@ final class UserTable extends PowerGridComponent
         $fields->add('nama', fn (User $model) => $model->profile->nama);
         $fields->add('nik', fn (User $model) => $model->profile->nik);
         $fields->add('lokasi_site', function (User $model) {
-            $route = route('users.show', $model->id);
+            $route = route('users.sites.detail', $model->id);
             return <<<HTML
             <a href="$route" wire:navigate class="text-sm border-b-2 border-dotted border-gray-300 hover:border-gray-700 transition-all">Lokasi Site</a>
             HTML;

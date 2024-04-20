@@ -2,9 +2,9 @@
 
 <div class="flex gap-3">
     @if ($detail)
-        <x-link type="link" :route="$detailRoute">
+        <x-button type="link" :href="$detailRoute">
             View
-        </x-link>
+        </x-button>
     @endif
 
     @if ($delete)

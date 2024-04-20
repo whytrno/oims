@@ -37,6 +37,6 @@ class CreateSiteModal extends ModalComponent
 
     public function render()
     {
-        return view('create-site-modal');
+        return view('components.modals.createSiteModal');
     }
 }

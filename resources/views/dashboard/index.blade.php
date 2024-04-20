@@ -1,29 +1,50 @@
 {{-- <x-emptyPage title="Dashboard" description="Selamat datang di dashboard" /> --}}
 <div class="grid grid-cols-6 gap-5 w-full">
-    <div
-        class="col-span-2 p-4 rounded-lg border border-dashed shadow-sm space-y-2 flex flex-col justify-between bg-green-100">
-        <h1 class="font-semibold">Total Karyawan</h1>
+    <x-card class="col-span-2 bg-green-100">
+        <x-slot:title>
+            Total Karyawan
+        </x-slot:title>
+
         <h1 class="text-2xl font-bold">{{ $karyawan }} Karyawan</h1>
-    </div>
-    <div
-        class="col-span-2 p-4 rounded-lg border border-dashed shadow-sm space-y-2 flex flex-col justify-between bg-blue-100">
-        <h1 class="font-semibold">Karyawan yang akan berangkat 7 hari dari sekarang</h1>
+    </x-card>
+    <x-card class="col-span-2 bg-blue-100">
+        <x-slot:title>
+            Karyawan yang akan berangkat 7 hari dari sekarang
+        </x-slot:title>
+
         <h1 class="text-2xl font-bold">{{ $karyawanYangAkanBerangkat }} Karyawan</h1>
-    </div>
-    <div
-        class="col-span-2 p-4 rounded-lg border border-dashed shadow-sm space-y-2 flex flex-col justify-between bg-red-100">
-        <h1 class="font-semibold">Karyawan yang akan berangkat 7 hari dari sekarang</h1>
+    </x-card>
+    <x-card class="col-span-2 bg-red-100">
+        <x-slot:title>
+            Karyawan yang akan berangkat 7 hari dari sekarang
+        </x-slot:title>
+
         <h1 class="text-2xl font-bold">{{ $karyawanYangAkanKembali }} Karyawan</h1>
-    </div>
-    <div class="col-span-3 p-4 rounded-lg border border-dashed shadow-sm space-y-2">
-        <h1 class="font-semibold">Penempatan</h1>
-        <p class="text-xs text-gray-500">*Penempatan terbaru</p>
+    </x-card>
+
+    <x-card>
+        <x-slot:title>
+            Penempatan
+        </x-slot:title>
+        <x-slot:description>
+            Penempatan terbaru
+        </x-slot:description>
+
         @livewire('DashboardCards.UserSiteLocationTable')
-        <x-button type="button" color="primary" class="mb-2" width="full">Tambah Penempatan</x-button>
-    </div>
-    <div class="col-span-3 p-4 rounded-lg border border-dashed shadow-sm">
-        <h1 class="font-semibold">Penempatan</h1>
-        <p class="text-xs text-gray-500">*Pemberangkatan dan kepulangan 7 hari dari sekarang</p>
+
+        <x-slot:footer>
+            <x-button type="buttonLink" :href="route('users.sites')" width="full">Lihat Selengkapnya</x-button>
+        </x-slot:footer>
+    </x-card>
+
+    <x-card>
+        <x-slot:title>
+            Penempatan
+        </x-slot:title>
+        <x-slot:description>
+            Pemberangkatan dan kepulangan 7 hari dari sekarang
+        </x-slot:description>
+
         @livewire('DashboardCards.PemberangkatankembaliTable')
-    </div>
+    </x-card>
 </div>

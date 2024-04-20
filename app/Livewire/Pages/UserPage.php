@@ -52,6 +52,14 @@ class UserPage extends Component
 
     public function mount($userId = null)
     {
+        $url = url()->current();
+        $url = explode('/', $url);
+        $url = end($url);
+
+        if ($url === 'profile') {
+            $this->userId = auth()->user()->id;
+        }
+
         $this->userId = $userId;
 
         if ($userId) {
@@ -178,6 +186,11 @@ class UserPage extends Component
 
     public function update()
     {
+        if (!auth()->user()->hasRole('admin') && $this->userId != auth()->user()->id) {
+            Toaster::error('You are not authorized to update this user');
+            return;
+        }
+
         try {
             $user = User::find($this->userId);
             $profile = Profile::where('user_id', $this->userId)->first();

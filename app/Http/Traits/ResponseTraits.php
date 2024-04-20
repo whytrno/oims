@@ -32,4 +32,9 @@ trait ResponseTraits
             'errors' => $errors,
         ], $code);
     }
+
+    public function isApi()
+    {
+        return request()->is('api/*');
+    }
 }

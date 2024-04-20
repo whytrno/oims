@@ -1,14 +1,14 @@
+@props(['userId' => null])
+
 <x-layouts.pageActions :page="$_page">
     @if ($_page === 'view')
-        {{-- @role('admin')
-            <x-iconButton :href="route('users.create')" icon="mdi:location-check-outline">
-                Add Data
-            </x-iconButton>
-        @endrole --}}
-    @elseif($_page === 'edit')
-        <x-iconButton :href="route('users.sites', 1)" icon="mdi:location-check-outline">
+        {{-- <x-button type="iconButton" :href="route('users.sites', 1)" icon="mdi:location-check-outline">
             Lokasi Site
-        </x-iconButton>
+        </x-button> --}}
+    @elseif($_page === 'edit')
+        <x-button type="iconButton" :href="route('users.sites', $userId)" icon="mdi:location-check-outline">
+            Lokasi Site
+        </x-button>
     @endif
 </x-layouts.pageActions>
 

@@ -1,14 +1,14 @@
 <x-layouts.pageActions :page="$_page">
     @if ($_page === 'view')
         @role('admin')
-            <x-iconButton :href="route('users.create')" icon="mdi:location-check-outline">
+            {{-- <x-iconButton :href="route('users.create')" icon="mdi:location-check-outline">
                 Tambah Data
-            </x-iconButton>
+            </x-iconButton> --}}
         @endrole
     @elseif($_page === 'edit')
-        <x-iconButton :href="route('users.sites.detail', $userId)" icon="mdi:location-check-outline">
+        <x-button type="iconButton" :href="route('users.sites.detail', $userId)" icon="mdi:location-check-outline">
             Lokasi Site
-        </x-iconButton>
+        </x-button>
     @endif
 </x-layouts.pageActions>
 
@@ -47,10 +47,10 @@
                 disabled="{{ auth()->user()->getRoleNames()->first() === 'admin' ? false : true }}">
             <x-inputs.file name="foto_ktp" label="Foto KTP" accept="image/*" :src="$foto_ktp" :disabled="$_disabled">
                 @if (is_string($foto_ktp))
-                    <x-link type="modalButton" modalComponent="ImagePreviewModal"
+                    <x-button type="modalButton" modalComponent="ImagePreviewModal"
                         arguments="{ image: '{{ $foto_ktp }}' }">
                         Lihat KTP
-                    </x-link>
+                    </x-button>
                 @endif
             </x-inputs.file>
             <x-inputs.input name="nama" label="Name" type="text" :disabled="$_disabled" />
@@ -73,10 +73,10 @@
             @if ($mcu === 'ada')
                 <x-inputs.file name="foto_mcu" label="Foto MCU" accept="image/*" :src="$foto_mcu" :disabled="$_disabled">
                     @if (is_string($foto_mcu))
-                        <x-link type="modalButton" modalComponent="ImagePreviewModal"
+                        <x-button type="modalButton" modalComponent="ImagePreviewModal"
                             arguments="{ image: '{{ $foto_mcu }}' }">
                             Lihat MCU
-                        </x-link>
+                        </x-button>
                     @endif
                 </x-inputs.file>
             @endif
@@ -94,7 +94,7 @@
             @endif
         </div>
 
-        <x-button type="submit" width="full" :disabled="$_disabled">
+        <x-button type="button" buttonType="submit" width="full" :disabled="$_disabled">
             Submit
         </x-button>
     </form>
