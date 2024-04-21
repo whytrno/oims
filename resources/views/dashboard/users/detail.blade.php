@@ -13,14 +13,15 @@
 </x-layouts.pageActions>
 
 <div>
-    <div class="border rounded-lg h-full p-5 space-y-5">
-        <div class="flex gap-3 items-center">
-            <div @click="$refs.profilephoto.click()" <x-avatar :src="$foto" :fallback="$nama" />
-        </div>
-
-        <div class="capitalize">
-            <h1 id="name" class="text-lg font-semibold">{{ $nama }}</h1>
-            <p id="role-name" class="text-sm text-gray-500">{{ $role }}</p>
+    <div class="border rounded-lg flex p-5 space-y-5 gap-3 items-center">
+        <div class="flex items-center gap-3">
+            <div @click="$refs.profilephoto.click()">
+                <x-avatar :src="$foto" :fallback="$nama" />
+            </div>
+            <div class="capitalize">
+                <h1 id="name" class="text-lg font-semibold">{{ $nama }}</h1>
+                <p id="role-name" class="text-sm text-gray-500">{{ $role }}</p>
+            </div>
         </div>
     </div>
 
@@ -29,6 +30,8 @@
     <form class="space-y-8" wire:submit.prevent="update">
         @csrf
         <h1 class="text-lg font-semibold">Authentication</h1>
+
+        <input x-ref="profilephoto" type="file" class="hidden" wire:model.lazy="foto" @disabled($_disabled)>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <x-inputs.select label="Role" name="role_id" :options="$roles" :disabled="$_disabled" />
@@ -43,8 +46,6 @@
         <h1 class="text-lg font-semibold">Profile</h1>
 
         <div class="grid md:grid-cols-2 gap-10">
-            <input x-ref="profilephoto" type="file" class="hidden" wire:model.lazy="foto"
-                disabled="{{ auth()->user()->getRoleNames()->first() === 'admin' ? false : true }}">
             <x-inputs.file name="foto_ktp" label="Foto KTP" accept="image/*" :src="$foto_ktp" :disabled="$_disabled">
                 @if (is_string($foto_ktp))
                     <x-button type="modalButton" modalComponent="ImagePreviewModal"
@@ -84,8 +85,8 @@
             <x-inputs.select label="Status Kontrak" name="status_kontrak" :options="$statusKontrakOptions" :selected="$status_kontrak"
                 :disabled="$_disabled" />
             <x-inputs.select label="Agama" name="agama" :options="$agamaOptions" :selected="$agama" :disabled="$_disabled" />
-            <x-inputs.select label="Pendidikan Terakhir" name="pendidikan_terakhir" :options="$pendidikanTerakhirOptio :disabled="$_disabled"ns"
-                :selected="$pendidikan_terakhir" />
+            <x-inputs.select label="Pendidikan Terakhir" name="pendidikan_terakhir" :options="$pendidikanTerakhirOptions"
+                :disabled="$_disabled" :selected="$pendidikan_terakhir" />
             <x-inputs.select label="Status Pernikahan" name="status_pernikahan" :options="$statusPernikahanOptions" :selected="$status_pernikahan"
                 :disabled="$_disabled" />
 
@@ -94,7 +95,17 @@
             @endif
         </div>
 
-        <x-button type="button" buttonType="submit" width="full" :disabled="$_disabled">
+        @php
+            $_buttonDisabled = true;
+
+            if ($errors->any() || $_disabled) {
+                $_buttonDisabled = true;
+            } else {
+                $_buttonDisabled = false;
+            }
+        @endphp
+
+        <x-button type="button" buttonType="submit" width="full" :disabled="$_buttonDisabled">
             Submit
         </x-button>
     </form>

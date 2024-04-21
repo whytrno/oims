@@ -21,6 +21,9 @@ final class UserSiteLocationTable extends PowerGridComponent
 {
     use WithExport;
 
+    public string $primaryKey = 'user_site_locations.id';
+    public string $sortField = 'user_site_locations.id';
+
     public function setUp(): array
     {
         return [
@@ -34,12 +37,20 @@ final class UserSiteLocationTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return UserSiteLocation::query()->orderBy('id', 'desc');
+        return UserSiteLocation::query()
+            ->join('users', 'users.id', '=', 'user_site_locations.user_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->join('site_locations', 'site_locations.id', '=', 'user_site_locations.site_location_id');
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => [
+                'profile' => 'nama'
+            ],
+            'siteLocation' => 'name'
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -52,8 +63,12 @@ final class UserSiteLocationTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Name', 'name'),
-            Column::make('Site location', 'site_location'),
+            Column::make('Name', 'name', 'profiles.nama')
+                ->sortable()
+                ->searchable(),
+            Column::make('Site location', 'site_location', 'site_locations.name')
+                ->sortable()
+                ->searchable(),
         ];
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Traits\UploadFile;
 use App\Models\User;
 use App\Models\Profile;
 use App\Data\Options;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Permission\Models\Role;

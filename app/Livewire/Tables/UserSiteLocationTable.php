@@ -16,10 +16,19 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use Illuminate\View\View;
+use Masmerise\Toaster\Toaster;
 
 final class UserSiteLocationTable extends PowerGridComponent
 {
     use WithExport;
+
+    protected $listeners = [
+        'refresh' => '$refresh',
+    ];
+
+    public string $primaryKey = 'user_site_locations.id';
+    public string $sortField = 'user_site_locations.id';
 
     public function setUp(): array
     {
@@ -43,23 +52,31 @@ final class UserSiteLocationTable extends PowerGridComponent
         $eightDaysAfter = $now->addDays(8);
 
         return UserSiteLocation::query()
-            ->select('*')
-            ->orderByRaw("CASE
-            WHEN tgl_keberangkatan BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 0
-            WHEN tgl_kembali BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 1
-            WHEN tgl_keberangkatan IS NOT NULL AND tgl_keberangkatan < '$sevenDaysBefore' THEN 2
-            WHEN tgl_kembali IS NOT NULL AND tgl_kembali > '$eightDaysAfter' THEN 3
-            ELSE 4
-        END ASC,
-        CASE
-            WHEN tgl_keberangkatan IS NOT NULL THEN tgl_keberangkatan
-            ELSE tgl_kembali
-        END ASC");
+            ->select('user_site_locations.id as id', 'users.id as user_id', 'profiles.nama as name', 'site_locations.id as site_location_id', 'site_locations.name as site_location', 'tgl_keberangkatan', 'tgl_kembali')
+            ->join('users', 'users.id', '=', 'user_site_locations.user_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->join('site_locations', 'site_locations.id', '=', 'user_site_locations.site_location_id');
+        //     ->orderByRaw("CASE
+        //     WHEN tgl_keberangkatan BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 0
+        //     WHEN tgl_kembali BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 1
+        //     WHEN tgl_keberangkatan IS NOT NULL AND tgl_keberangkatan < '$sevenDaysBefore' THEN 2
+        //     WHEN tgl_kembali IS NOT NULL AND tgl_kembali > '$eightDaysAfter' THEN 3
+        //     ELSE 4
+        // END ASC,
+        // CASE
+        //     WHEN tgl_keberangkatan IS NOT NULL THEN tgl_keberangkatan
+        //     ELSE tgl_kembali
+        // END ASC");
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => [
+                'profile' => 'nama'
+            ],
+            'siteLocation' => 'name'
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -94,14 +111,47 @@ final class UserSiteLocationTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Name', 'name'),
-            Column::make('Site location', 'site_location'),
+            Column::make('Name', 'name')
+                ->sortable()
+                ->searchable(),
+            Column::make('Site location', 'site_location')
+                ->sortable()
+                ->searchable(),
             Column::make('Tgl keberangkatan', 'tgl_keberangkatan_formatted', 'tgl_keberangkatan')
                 ->sortable(),
 
             Column::make('Tgl kembali', 'tgl_kembali_formatted', 'tgl_kembali')
                 ->sortable(),
+
+            Column::action('Action'),
         ];
+    }
+
+
+    public function actionsFromView($data): View
+    {
+        $detailRoute = route('users.sites.detail', $data->id);
+
+        return view('components.tableAction', [
+            'data' => $data,
+            'detailRoute' => $detailRoute,
+            'detail' => true,
+            'edit' => 'userSiteLocation',
+            'delete' => true,
+        ]);
+    }
+
+
+
+    public function destroy($id)
+    {
+        try {
+            UserSiteLocation::findOrFail($id)->delete();
+            Toaster::success('Data berhasil dihapus');
+        } catch (\Throwable $th) {
+            dd($th);
+            Toaster::error('Data gagal dihapus');
+        }
     }
 
     public function actionRules($row): array
@@ -128,7 +178,7 @@ final class UserSiteLocationTable extends PowerGridComponent
                         }
                     }
                 })
-                ->setAttribute('class', 'bg-blue-200 hover:bg-blue-400'),
+                ->setAttribute('class', 'bg-red-200 hover:bg-red-400'),
             Rule::rows()
                 ->when(function ($row) {
                     $checkKeberangkatan = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now());
@@ -146,7 +196,7 @@ final class UserSiteLocationTable extends PowerGridComponent
                         return false;
                     }
                 })
-                ->setAttribute('class', 'bg-red-200 hover:bg-red-400'),
+                ->setAttribute('class', 'bg-blue-200 hover:bg-blue-400'),
             Rule::rows()
                 ->when(function ($row) {
                     $checkKeberangkatan = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now()) >= 7;

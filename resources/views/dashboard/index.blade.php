@@ -7,16 +7,16 @@
 
         <h1 class="text-2xl font-bold">{{ $karyawan }} Karyawan</h1>
     </x-card>
-    <x-card class="lg:col-span-2 bg-blue-100">
+    <x-card class="lg:col-span-2 bg-red-100">
         <x-slot:title>
             Karyawan yang akan berangkat 7 hari dari sekarang
         </x-slot:title>
 
         <h1 class="text-2xl font-bold">{{ $karyawanYangAkanBerangkat }} Karyawan</h1>
     </x-card>
-    <x-card class="lg:col-span-2 bg-red-100">
+    <x-card class="lg:col-span-2 bg-blue-100">
         <x-slot:title>
-            Karyawan yang akan berangkat 7 hari dari sekarang
+            Karyawan yang akan kembali 7 hari dari sekarang
         </x-slot:title>
 
         <h1 class="text-2xl font-bold">{{ $karyawanYangAkanKembali }} Karyawan</h1>

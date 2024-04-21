@@ -29,7 +29,7 @@
                             'roles' => ['admin', 'manager'],
                         ],
                         [
-                            'name' => 'Penempatan',
+                            'name' => 'Lokasi Site',
                             'route' => 'sites',
                             'icon' => 'mdi:account-group',
                             'roles' => ['admin'],

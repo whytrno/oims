@@ -21,6 +21,9 @@ final class PemberangkatankembaliTable extends PowerGridComponent
 {
     use WithExport;
 
+    public string $primaryKey = 'user_site_locations.id';
+    public string $sortField = 'user_site_locations.id';
+
     public function setUp(): array
     {
         return [
@@ -34,15 +37,35 @@ final class PemberangkatankembaliTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $now = now();
+        $sevenDaysBefore = $now->subDays(7);
+        $eightDaysAfter = $now->addDays(8);
+
         return UserSiteLocation::query()
-            ->where('tgl_keberangkatan', '<', Carbon::now())
-            ->where('tgl_kembali', '>', Carbon::now())
-            ->orderBy('id', 'desc');
+            ->join('users', 'users.id', '=', 'user_site_locations.user_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->join('site_locations', 'site_locations.id', '=', 'user_site_locations.site_location_id')
+            ->orderByRaw("CASE
+            WHEN tgl_keberangkatan BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 0
+            WHEN tgl_kembali BETWEEN '$sevenDaysBefore' AND '$eightDaysAfter' THEN 1
+            WHEN tgl_keberangkatan IS NOT NULL AND tgl_keberangkatan < '$sevenDaysBefore' THEN 2
+            WHEN tgl_kembali IS NOT NULL AND tgl_kembali > '$eightDaysAfter' THEN 3
+            ELSE 4
+        END ASC,
+        CASE
+            WHEN tgl_keberangkatan IS NOT NULL THEN tgl_keberangkatan
+            ELSE tgl_kembali
+        END ASC");
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => [
+                'profile' => 'nama'
+            ],
+            'siteLocation' => 'name'
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -61,7 +84,6 @@ final class PemberangkatankembaliTable extends PowerGridComponent
             Column::make('Site location', 'site_location'),
             Column::make('Tgl keberangkatan', 'tgl_keberangkatan_formatted', 'tgl_keberangkatan')
                 ->sortable(),
-
             Column::make('Tgl kembali', 'tgl_kembali_formatted', 'tgl_kembali')
                 ->sortable(),
         ];
@@ -72,14 +94,44 @@ final class PemberangkatankembaliTable extends PowerGridComponent
         return [
             Rule::rows()
                 ->when(function ($row) {
-                    return Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now()) <= 7;
-                })
-                ->setAttribute('class', 'bg-blue-200 hover:bg-blue-400'),
-            Rule::rows()
-                ->when(function ($row) {
-                    return Carbon::parse($row->tgl_kembali)->diffInDays(Carbon::now()) >= -7;
+                    $checkKeberangkatan = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now());
+                    $checkKeberangkatan = abs($checkKeberangkatan);
+                    $checkKembali = Carbon::parse($row->tgl_kembali)->diffInDays(Carbon::now());
+                    $checkKembali = abs($checkKembali);
+
+                    if ($checkKeberangkatan < 7 && $checkKembali < 7) {
+                        if ($checkKeberangkatan < $checkKembali) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        if ($checkKeberangkatan < $checkKembali) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                 })
                 ->setAttribute('class', 'bg-red-200 hover:bg-red-400'),
+            Rule::rows()
+                ->when(function ($row) {
+                    $checkKeberangkatan = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now());
+                    $checkKeberangkatan = abs($checkKeberangkatan);
+                    $checkKembali = Carbon::parse($row->tgl_kembali)->diffInDays(Carbon::now());
+                    $checkKembali = abs($checkKembali);
+
+                    if ($checkKeberangkatan < 7 && $checkKembali < 7) {
+                        if ($checkKeberangkatan > $checkKembali) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                })
+                ->setAttribute('class', 'bg-blue-200 hover:bg-blue-400'),
             Rule::rows()
                 ->when(function ($row) {
                     $checkKeberangkatan = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now()) >= 7;

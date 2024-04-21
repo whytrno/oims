@@ -56,8 +56,7 @@ class UserSiteLocationDetailPage extends Component
             $this->dispatch('dataUpdated');
             Toaster::success('Data berhasil disimpan');
         } catch (\Throwable $th) {
-            dd($th);
-            Toaster::error('Data gagal disimpan');
+            Toaster::error('Data gagal disimpan, mohon lengkapi seluruh data');
         }
     }
 

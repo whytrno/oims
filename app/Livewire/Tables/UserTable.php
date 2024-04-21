@@ -58,7 +58,6 @@ final class UserTable extends PowerGridComponent
         if (auth()->user()->hasRole('admin')) {
             $fields->add('email');
             $fields->add('password', fn (User $model) => Crypt::decryptString($model->password));
-            // $fields->add('password');
         }
 
         $fields->add('foto', function (User $model) {

@@ -1,4 +1,6 @@
-<span class="relative flex shrink-0 overflow-hidden rounded-full size-14 cursor-pointer">
+@props(['src' => null, 'fallback' => '', 'size' => 14])
+
+<span class="relative flex shrink-0 overflow-hidden rounded-full cursor-pointer size-{{ $size }}">
     @if ($src)
         @if (!is_string($src))
             <img class="aspect-square size-14 rounded-full object-cover border" alt="Foto"
