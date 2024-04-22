@@ -49,16 +49,16 @@ class AuthController extends Controller
 
         try {
             $user = User::create([
-                'role_id' => $request->role_id ?? 3,
                 'email' => $request->email,
                 'password' => Crypt::encryptString($request->password)
             ]);
 
             Profile::create([
-                'user_id' => $user->id,
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
             ]);
+
+            $user->assignRole($request->role_id ?? 3);
 
             if ($this->isApi()) {
                 return $this->successResponse($user, 'Register success', 200);
