@@ -55,6 +55,7 @@ class AuthController extends Controller
             ]);
 
             Profile::create([
+                'user_id' => $user->id,
                 'nama' => $request->nama,
                 'no_hp' => $request->no_hp,
             ]);
