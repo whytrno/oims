@@ -6,6 +6,7 @@ use App\Http\Traits\UploadFile;
 use App\Models\User;
 use App\Models\Profile;
 use App\Data\Options;
+use App\Models\Children;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Livewire\Component;
@@ -51,6 +52,8 @@ class UserPage extends Component
     public $nrp = '';
     public $no_kontrak = '';
     public $status_kontrak = '';
+    public $nama_istri = '';
+    public $nama_anak = [];
 
     public function mount($userId = null)
     {
@@ -73,7 +76,7 @@ class UserPage extends Component
                 $this->_disabled = false;
             }
 
-            $user = User::where('id', $userId)->with('profile')->first();
+            $user = User::where('id', $userId)->with('profile.childrens')->first();
             $role = Role::where('name', $user->getRoleNames()->first())->first();
 
             $this->role_name = $user->getRoleNames()->first();
@@ -102,6 +105,11 @@ class UserPage extends Component
             $this->nrp = $user->profile->nrp;
             $this->no_kontrak = $user->profile->no_kontrak;
             $this->status_kontrak = $user->profile->status_kontrak;
+            $this->nama_istri = $user->profile->nama_istri;
+
+            foreach ($user->profile->childrens as $key => $value) {
+                $this->nama_anak[$key] = $value->name;
+            }
         }
     }
 
@@ -156,8 +164,6 @@ class UserPage extends Component
             'alamat_ktp' => 'nullable|string|max:255',
             'domisili' => 'nullable|string|max:255',
             'agama' => 'nullable|in:islam,kristen,katolik,hindu,budha,konghucu',
-            'status_pernikahan' => 'nullable|in:belum menikah,menikah,cerai',
-            'anak' => 'nullable|required_if:status_pernikahan,menikah,cerai|integer|min:0',
             'nama_kontak_darurat' => 'nullable|string|max:255',
             'hubungan_kontak_darurat' => 'nullable|string|max:255',
             'no_kontak_darurat' => 'nullable|string|max:255',
@@ -171,6 +177,11 @@ class UserPage extends Component
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'no_kontrak' => 'nullable|integer',
             'status_kontrak' => 'nullable|in:aktif,tidak aktif',
+
+            'status_pernikahan' => 'nullable|in:belum menikah,menikah,cerai',
+            'anak' => 'nullable|required_if:status_pernikahan,menikah,cerai|integer|min:0',
+            'nama_istri' => 'nullable|required_if:status_pernikahan,menikah|string|max:255',
+            'nama_anak.*' => 'nullable|required_if:anak,>0|string|max:255',
         ];
     }
 
@@ -197,6 +208,7 @@ class UserPage extends Component
             $user = User::find($this->userId);
             $profile = Profile::where('user_id', $this->userId)->first();
             $role = Role::find($this->role_id);
+            $children = Children::where('profile_id', $profile->id)->get();
 
             $updateUserData = [
                 'email' => $this->email,
@@ -229,6 +241,7 @@ class UserPage extends Component
                 'nrp' => $this->nrp,
                 'no_kontrak' => $this->no_kontrak,
                 'status_kontrak' => $this->status_kontrak,
+                'nama_istri' => $this->nama_istri,
             ];
 
             if ($this->foto) {
@@ -250,6 +263,21 @@ class UserPage extends Component
                 $updateProfileData['foto_ktp'] = $this->foto_ktp;
             } else {
                 $updateProfileData['foto_ktp'] = $profile->foto_ktp;
+            }
+
+            if (!count($children) && $this->anak > 0) {
+                foreach ($this->nama_anak as $key => $value) {
+                    Children::create([
+                        'profile_id' => $profile->id,
+                        'name' => $value,
+                    ]);
+                }
+            } else {
+                foreach ($children as $key => $value) {
+                    $value->update([
+                        'name' => $this->nama_anak[$key],
+                    ]);
+                }
             }
 
             $user->syncRoles($role);

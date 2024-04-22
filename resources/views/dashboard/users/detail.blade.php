@@ -91,7 +91,15 @@
                 :disabled="$_disabled" />
 
             @if ($status_pernikahan === 'menikah')
+                <x-inputs.input name="nama_istri" label="Nama Istri" type="text" :disabled="$_disabled" />
                 <x-inputs.input name="anak" label="Jumlah Anak" type="number" :disabled="$_disabled" />
+
+                @if ($anak > 0)
+                    @for ($i = 0; $i < $anak; $i++)
+                        <x-inputs.input name="nama_anak.{{ $i }}" label="Nama Anak {{ $i + 1 }}"
+                            type="text" wire:model.lazy="nama_anak.{{ $i }}" :disabled="$_disabled" />
+                    @endfor
+                @endif
             @endif
         </div>
 

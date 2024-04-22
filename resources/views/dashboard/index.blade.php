@@ -47,4 +47,15 @@
 
         @livewire('DashboardCards.PemberangkatankembaliTable')
     </x-card>
+
+    <x-card>
+        <x-slot:title>
+            Lokasi Site
+        </x-slot:title>
+        <x-slot:description>
+            Jumlah Karyawan pada lokasi site
+        </x-slot:description>
+
+        @livewire('DashboardCards.UserSiteLocationCountTable')
+    </x-card>
 </div>

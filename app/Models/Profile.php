@@ -34,10 +34,16 @@ class Profile extends Model
         'nrp',
         'no_kontrak',
         'status_kontrak',
+        'nama_istri',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function childrens()
+    {
+        return $this->hasMany(Children::class);
     }
 }
