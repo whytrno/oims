@@ -10,6 +10,7 @@ use App\Models\Profile;
 use App\Models\UserSiteLocation;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -58,7 +59,9 @@ class AuthController extends Controller
                 'no_hp' => $request->no_hp,
             ]);
 
-            $user->assignRole($request->role_id ?? 3);
+            $role = Role::where('name', 'user')->first();
+
+            $user->assignRole($role);
 
             if ($this->isApi()) {
                 return $this->successResponse($user, 'Register success', 200);
