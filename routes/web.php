@@ -976,8 +976,8 @@ Route::get('import-data', function () {
             UserSiteLocation::create([
                 'user_id' => $user->id,
                 'site_location_id' => $siteLocation->id,
-                'tgl_keberangkatan' => Carbon::now(),
-                'tgl_kembali' => Carbon::now()
+                'tgl_keberangkatan' => '2000-01-01',
+                'tgl_kembali' => '2000-02-01'
             ]);
         }
     }
