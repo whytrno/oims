@@ -58,8 +58,8 @@ final class UserSiteLocationTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('name', fn (UserSiteLocation $model) => $model->user->profile->nama)
             ->add('site_location', fn (UserSiteLocation $model) => $model->siteLocation->name)
-            ->add('tgl_keberangkatan', fn (UserSiteLocation $model) => Carbon::parse($model->tgl_keberangkatan)->format('d-m-Y'))
-            ->add('tgl_kembali', fn (UserSiteLocation $model) => Carbon::parse($model->tgl_kembali)->format('d-m-Y'));
+            ->add('tgl_keberangkatan', fn (UserSiteLocation $model) => Carbon::parse($model->tgl_keberangkatan)->format('d F Y'))
+            ->add('tgl_kembali', fn (UserSiteLocation $model) => Carbon::parse($model->tgl_kembali)->format('d F Y'));
     }
 
     public function columns(): array

@@ -71,10 +71,10 @@ final class UserSiteLocationTable extends PowerGridComponent
             ->add('site_location')
             ->add('tgl_keberangkatan_formatted', function (UserSiteLocation $model) {
                 if (Carbon::parse($model->tgl_keberangkatan)->diffInDays(Carbon::now()) > 0) {
-                    $tgl_keberangkatan = Carbon::parse($model->tgl_keberangkatan)->format('Y-m-d');
+                    $tgl_keberangkatan = Carbon::parse($model->tgl_keberangkatan)->format('d F Y');
                     return $tgl_keberangkatan;
                 } else {
-                    $tgl_keberangkatan = Carbon::parse($model->tgl_keberangkatan)->format('Y-m-d');
+                    $tgl_keberangkatan = Carbon::parse($model->tgl_keberangkatan)->format('d F Y');
                     $day_remaining = round(Carbon::parse($model->tgl_keberangkatan)->diffInDays(Carbon::now()));
                     $day_remaining = abs($day_remaining);
 
@@ -83,10 +83,10 @@ final class UserSiteLocationTable extends PowerGridComponent
             })
             ->add('tgl_kembali_formatted', function (UserSiteLocation $model) {
                 if (Carbon::parse($model->tgl_kembali)->diffInDays(Carbon::now()) > 0) {
-                    $tgl_kembali = Carbon::parse($model->tgl_kembali)->format('Y-m-d');
+                    $tgl_kembali = Carbon::parse($model->tgl_kembali)->format('d F Y');
                     return $tgl_kembali;
                 } else {
-                    $tgl_kembali = Carbon::parse($model->tgl_kembali)->format('Y-m-d');
+                    $tgl_kembali = Carbon::parse($model->tgl_kembali)->format('d F Y');
                     $day_remaining = round(Carbon::parse($model->tgl_kembali)->diffInDays(Carbon::now()));
                     $day_remaining = abs($day_remaining);
 
@@ -116,13 +116,13 @@ final class UserSiteLocationTable extends PowerGridComponent
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            Filter::inputText('tgl_keberangkatan_formatted', 'user_site_locations.tgl_keberangkatan'),
-            Filter::inputText('tgl_kembali_formatted', 'user_site_locations.tgl_kembali'),
-        ];
-    }
+    // public function filters(): array
+    // {
+    //     return [
+    //         Filter::inputText('tgl_keberangkatan_formatted', 'user_site_locations.tgl_keberangkatan'),
+    //         Filter::inputText('tgl_kembali_formatted', 'user_site_locations.tgl_kembali'),
+    //     ];
+    // }
 
 
     public function actionsFromView($data): View
