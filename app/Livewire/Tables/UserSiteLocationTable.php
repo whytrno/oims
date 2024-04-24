@@ -23,9 +23,20 @@ final class UserSiteLocationTable extends PowerGridComponent
 {
     use WithExport;
 
+    public $tgl_keberangkatan = '0001-01-01';
+    public $tgl_kembali = '9999-01-01';
+
     protected $listeners = [
         'refresh' => '$refresh',
+        'refresh-filter' => 'refreshPost'
     ];
+
+    public function refreshPost($tgl_keberangkatan, $tgl_kembali)
+    {
+//        dd($tgl_keberangkatan, $tgl_kembali);
+        $this->tgl_keberangkatan = $tgl_keberangkatan;
+        $this->tgl_kembali = $tgl_kembali;
+    }
 
     public string $primaryKey = 'user_site_locations.id';
     public string $sortField = 'user_site_locations.id';
@@ -51,7 +62,9 @@ final class UserSiteLocationTable extends PowerGridComponent
             ->select('user_site_locations.id as id', 'users.id as user_id', 'profiles.nama as name', 'site_locations.name as site_location', 'user_site_locations.tgl_keberangkatan', 'user_site_locations.tgl_kembali')
             ->join('users', 'users.id', '=', 'user_site_locations.user_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->join('site_locations', 'site_locations.id', '=', 'user_site_locations.site_location_id');
+            ->join('site_locations', 'site_locations.id', '=', 'user_site_locations.site_location_id')
+            ->where('user_site_locations.tgl_keberangkatan', '>=', $this->tgl_keberangkatan)
+            ->where('user_site_locations.tgl_kembali', '<=', $this->tgl_kembali);
     }
 
     public function relationSearch(): array
@@ -116,14 +129,6 @@ final class UserSiteLocationTable extends PowerGridComponent
         ];
     }
 
-    // public function filters(): array
-    // {
-    //     return [
-    //         Filter::inputText('tgl_keberangkatan_formatted', 'user_site_locations.tgl_keberangkatan'),
-    //         Filter::inputText('tgl_kembali_formatted', 'user_site_locations.tgl_kembali'),
-    //     ];
-    // }
-
 
     public function actionsFromView($data): View
     {
@@ -137,7 +142,6 @@ final class UserSiteLocationTable extends PowerGridComponent
             'delete' => true,
         ]);
     }
-
 
 
     public function destroy($id)
