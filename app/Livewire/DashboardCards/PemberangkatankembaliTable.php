@@ -74,7 +74,11 @@ final class PemberangkatankembaliTable extends PowerGridComponent
                     $day_remaining = round(Carbon::parse($model->tgl_keberangkatan)->diffInDays(Carbon::now()));
                     $day_remaining = abs($day_remaining);
 
-                    return $tgl_keberangkatan . ' (' . abs($day_remaining) . ' hari yang lagi)';
+                    if ($day_remaining <= 7) {
+                        return $tgl_keberangkatan . ' (' . abs($day_remaining) . ' hari yang lagi)';
+                    } else {
+                        return $tgl_keberangkatan;
+                    }
                 }
             })
             ->add('tgl_kembali_formatted', function (UserSiteLocation $model) {
@@ -86,7 +90,11 @@ final class PemberangkatankembaliTable extends PowerGridComponent
                     $day_remaining = round(Carbon::parse($model->tgl_kembali)->diffInDays(Carbon::now()));
                     $day_remaining = abs($day_remaining);
 
-                    return $tgl_kembali . ' (' . abs($day_remaining) . ' hari yang lagi)';
+                    if ($day_remaining <= 7) {
+                        return $tgl_kembali . ' (' . abs($day_remaining) . ' hari yang lagi)';
+                    } else {
+                        return $tgl_kembali;
+                    }
                 }
             });
     }
