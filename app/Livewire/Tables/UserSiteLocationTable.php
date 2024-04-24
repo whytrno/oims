@@ -195,19 +195,33 @@ final class UserSiteLocationTable extends PowerGridComponent
                     $checkKembali = Carbon::parse($row->tgl_keberangkatan)->diffInDays(Carbon::now());
                     $checkKembali = abs($checkKembali);
 
-                    if ($checkKeberangkatan < 7 && $checkKembali > 7) {
-                        // if ($checkKeberangkatan < $checkKembali) {
-                        //     return true;
-                        // } else {
-                        //     return false;
-                        // }
-                        return true;
+                    // if ($checkKeberangkatan < 7 && $checkKembali > 7) {
+                    //     // if ($checkKeberangkatan < $checkKembali) {
+                    //     //     return true;
+                    //     // } else {
+                    //     //     return false;
+                    //     // }
+                    //     return true;
+                    // } else {
+                    //     // if ($checkKeberangkatan < $checkKembali) {
+                    //     //     return true;
+                    //     // } else {
+                    //     // }
+                    //     return false;
+                    // }
+
+                    if ($checkKeberangkatan < 7 && $checkKembali < 7) {
+                        if ($checkKeberangkatan < $checkKembali) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     } else {
-                        // if ($checkKeberangkatan < $checkKembali) {
-                        //     return true;
-                        // } else {
-                        // }
-                        return false;
+                        if ($checkKeberangkatan < $checkKembali) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 })
                 ->setAttribute('class', 'bg-blue-200 hover:bg-blue-400'),
